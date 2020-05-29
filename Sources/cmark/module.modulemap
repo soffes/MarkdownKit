@@ -1,0 +1,7 @@
+module libcmark [system][extern_c] {
+    header "include/node.h"
+		header "include/strikethrough.h"
+		header "include/table.h"
+		header "include/tasklist.h"
+    export *
+}
