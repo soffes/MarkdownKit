@@ -1,5 +1,5 @@
 import Foundation
-import cmark
+import libcmark
 
 public final class Document: Node {
 

@@ -1,5 +1,5 @@
 import Foundation
-import cmark
+import libcmark
 
 public class Node {
 
@@ -48,7 +48,7 @@ public class Node {
 	/// Range of the node in the document’s string
 	public var range: NSRange? {
 		guard let start = start else {
-//			assertionFailure("Missing `start`")
+			assertionFailure("Missing `start`")
 			return nil
 		}
 
