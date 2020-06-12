@@ -4,9 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "MarkdownKit",
-    platforms: [
-        .iOS(.v12)
-    ],
+    platforms: [.iOS(.v12)],
     products: [
         .library(name: "MarkdownKit", targets: ["MarkdownKit"])
     ],
@@ -14,5 +12,6 @@ let package = Package(
         .target(name: "libcmark"),
         .target(name: "MarkdownKit", dependencies: ["libcmark"]),
         .testTarget(name: "MarkdownKitTests", dependencies: ["MarkdownKit"])
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
