@@ -5,7 +5,7 @@ task :test do
     formatter = '| xcpretty'
   end
 
-  sh "xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=13.5,name=iPhone Xʀ' #{formatter}"
+  sh "xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=13.5,name=iPhone 11' #{formatter}"
 end
 
 task :default => :test
