@@ -6,11 +6,6 @@ public final class DefaultTheme: Theme {
 
     public let name = "Default"
 
-    public var fontSize: CGFloat = 17
-
-    private let linkColor = UIColor(displayP3Red: 0.129, green: 0.516, blue: 0.686, alpha: 1)
-    private let imageColor = UIColor(displayP3Red: 0.546, green: 0.201, blue: 0.719, alpha: 1)
-
     // MARK: - Theme
 
     public func attributes(for node: Node) -> [NSAttributedString.Key: Any]? {
