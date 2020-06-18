@@ -69,6 +69,22 @@ final class BlockTests: XCTestCase {
         XCTAssertEqual(NSRange(location: 0, length: 7), block.range!)
     }
 
+    func testTask() {
+        let markdown = "- [ ] Item\n"
+        let document = Parser.parse(markdown)!
+
+        let item = document.children[0].children[0]
+        XCTAssertEqual(true, (item as? ListItem)?.isTask)
+    }
+
+    func testCompletedTask() {
+        let markdown = "- [x] Item\n"
+        let document = Parser.parse(markdown)!
+        let item = document.children[0].children[0]
+        XCTAssertEqual(true, (item as? ListItem)?.isTask)
+        XCTAssertEqual(true, (item as? ListItem)?.isCompleted)
+    }
+
     func testCode() {
         let markdown = "Hello\n\n    puts 'hi'\n"
         let document = Parser.parse(markdown)!
