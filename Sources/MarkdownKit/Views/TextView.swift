@@ -33,7 +33,7 @@ public final class TextView: UITextView {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            parse(force: true)
+            customTextStorage.refreshTheme()
         }
     }
 
@@ -41,16 +41,6 @@ public final class TextView: UITextView {
 
     public override var text: String! {
         didSet {
-            parse()
-        }
-    }
-
-    // MARK: - Private
-
-    private func parse(force: Bool = false) {
-        if force {
-            customTextStorage.parse()
-        } else {
             customTextStorage.parseIfNeeded()
         }
     }
@@ -58,6 +48,6 @@ public final class TextView: UITextView {
 
 extension TextView: UITextViewDelegate {
     public func textViewDidChange(_ textView: UITextView) {
-        parse()
+        customTextStorage.parseIfNeeded()
     }
 }

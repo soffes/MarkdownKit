@@ -53,8 +53,8 @@ public final class TextStorage: BaseTextStorage {
         parse()
     }
 
-    /// Force parsing now. You should probably use `parseIfNeeded` instead.
-    public func parse() {
+    /// Throw away the AST, reparse, and update the styles
+    func parse() {
         needsParse = false
 
         beginEditing()
@@ -71,6 +71,17 @@ public final class TextStorage: BaseTextStorage {
         endEditing()
     }
 
+    public func refreshTheme() {
+        guard let document = document else {
+            return
+        }
+
+        beginEditing()
+        resetAttributes()
+        addAttributes(for: document, currentFont: theme.font)
+        endEditing()
+    }
+    
     // MARK: - Private
 
     /// Reset all attributes. Down the road, we could detect the maximum affect area and only reset those.
