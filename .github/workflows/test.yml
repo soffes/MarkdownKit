@@ -22,14 +22,5 @@ jobs:
           sudo xcode-select -s ${{ env.XCODE_PATH }}
           xcrun simctl boot "iPhone 11"
           set -o pipefail \
-          && env NSUnbufferedIO=YES xcodebuild
-            -scheme MarkdownKit \
-            -destination 'platform=iOS Simulator,name=iPhone 11'
-            -maximum-concurrent-test-simulator-destinations 2 \
-            -jobs 2 \
-            -parallelizeTargets \
-            -parallel-testing-enabled YES \
-            -parallel-testing-worker-count 2 \
-            COMPILER_INDEX_STORE_ENABLE=NO \
-            build-for-testing test-without-building \
+          && xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=13.5,name=iPhone 11' \
           | xcpretty
