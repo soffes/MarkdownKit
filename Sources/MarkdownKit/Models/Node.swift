@@ -19,11 +19,15 @@ public class Node {
 
     /// All child nodes
     public var children: NodeList {
+        firstChild.flatMap(NodeList.init) ?? NodeList(nil)
+    }
+
+    public var firstChild: Node? {
         guard let child = cmark_node_first_child(node) else {
-            return NodeList(nil)
+            return nil
         }
 
-        return NodeList(Node.with(child, document: document))
+        return Node.with(child, document: document)
     }
 
     /// Start location
@@ -68,6 +72,35 @@ public class Node {
         }
 
         return range
+    }
+
+    public var leadingDelimiter: NSRange? {
+        guard let childRange = firstChild?.range, let range = range, range != childRange else {
+            return nil
+        }
+
+        return NSRange(location: range.location, length: childRange.location - range.location)
+    }
+
+    public var trailingDelimiter: NSRange? {
+        guard let childRange = firstChild?.range, let range = range, range != childRange else {
+            return nil
+        }
+
+        return NSRange(location: NSMaxRange(childRange), length: NSMaxRange(range) - NSMaxRange(childRange))
+    }
+
+    public var delimiters: [NSRange]? {
+        // This method reimplements `leadingDelimiter` and `trailingDelimiter` for performance since converting ranges
+        // from cmark to `NSRange` is a bit slow.
+        guard let childRange = firstChild?.range, let range = range, range != childRange else {
+            return nil
+        }
+
+        return [
+            NSRange(location: range.location, length: childRange.location - range.location),
+            NSRange(location: NSMaxRange(childRange), length: NSMaxRange(range) - NSMaxRange(childRange))
+        ]
     }
 
     /// Recursive description

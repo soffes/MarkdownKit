@@ -17,6 +17,10 @@ open class Theme {
         .link
     }
 
+    open var delimiterColor: UIColor {
+        foregroundColor.withAlphaComponent(0.5)
+    }
+
     open var backgroundColor: UIColor {
         .systemBackground
     }
@@ -40,250 +44,267 @@ open class Theme {
         ]
     }
 
-    open func attributes(for node: Node) -> [NSAttributedString.Key: Any]? {
+    open func styles(for node: Node, range: NSRange) -> [Style] {
         switch node.kind {
         case .document:
             guard let node = node as? Document else {
                 assertionFailure("Expected `Document` node")
-                return nil
+                return []
             }
 
-            return document(node)
+            return document(node, range: range)
 
         case .blockquote:
-            return blockquote(node)
+            return blockquote(node, range: range)
 
         case .list:
-            return list(node)
+            return list(node, range: range)
 
         case .item:
             guard let node = node as? ListItem else {
                 assertionFailure("Expected `ListItem` node")
-                return nil
+                return []
             }
-            return item(node)
+            return item(node, range: range)
 
         case .codeBlock:
-            return codeBlock(node)
+            return codeBlock(node, range: range)
 
         case .htmlBlock:
-            return htmlBlock(node)
+            return htmlBlock(node, range: range)
 
         case .customBlock:
-            return customBlock(node)
+            return customBlock(node, range: range)
 
         case .paragraph:
-            return paragraph(node)
+            return paragraph(node, range: range)
 
         case .heading:
             guard let node = node as? Heading else {
                 assertionFailure("Expected `Heading` node")
-                return nil
+                return []
             }
 
-            return heading(node)
+            return heading(node, range: range)
 
         case .thematicBreak:
-            return thematicBreak(node)
+            return thematicBreak(node, range: range)
 
         case .table:
-            return table(node)
+            return table(node, range: range)
 
         case .tableRow:
-            return tableRow(node)
+            return tableRow(node, range: range)
 
         case .tableCell:
-            return tableCell(node)
+            return tableCell(node, range: range)
 
         case .text:
-            return text(node)
+            return text(node, range: range)
 
         case .softBreak:
-            return softBreak(node)
+            return softBreak(node, range: range)
 
         case .lineBreak:
-            return lineBreak(node)
+            return lineBreak(node, range: range)
 
         case .codeInline:
-            return codeInline(node)
+            return codeInline(node, range: range)
 
         case .htmlInline:
-            return htmlInline(node)
+            return htmlInline(node, range: range)
 
         case .customInline:
-            return customInline(node)
+            return customInline(node, range: range)
 
         case .emphasis:
-            return emphasis(node)
+            return emphasis(node, range: range)
 
         case .strong:
-            return strong(node)
+            return strong(node, range: range)
 
         case .link:
-            return link(node)
+            return link(node, range: range)
 
         case .image:
-            return image(node)
+            return image(node, range: range)
 
         case .strikethrough:
-            return strikethrough(node)
+            return strikethrough(node, range: range)
 
         default:
             assertionFailure("Unknown node kind")
-            return nil
+            return []
         }
     }
 
-    open func document(_ node: Document) -> [NSAttributedString.Key: Any]? {
-        nil
+    open func document(_ node: Document, range: NSRange) -> [Style] {
+        []
     }
 
-    open func blockquote(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func blockquote(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: secondaryForegroundColor
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
     }
 
-    open func list(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
+    open func list(_ node: Node, range: NSRange) -> [Style] {
+        []
     }
 
-    open func item(_ node: ListItem) -> [NSAttributedString.Key: Any]? {
-        nil
+    open func item(_ node: ListItem, range: NSRange) -> [Style] {
+        []
     }
 
-    open func codeBlock(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func codeBlock(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: secondaryForegroundColor
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
     }
 
-    open func htmlBlock(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func htmlBlock(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: secondaryForegroundColor
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
     }
 
-    open func customBlock(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
+    open func customBlock(_ node: Node, range: NSRange) -> [Style] {
+        []
     }
 
-    open func paragraph(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
+    open func paragraph(_ node: Node, range: NSRange) -> [Style] {
+        []
     }
 
-    open func heading(_ node: Heading) -> [NSAttributedString.Key: Any]? {
+    open func heading(_ node: Heading, range: NSRange) -> [Style] {
+        let attributes: [NSAttributedString.Key: Any]
         switch node.level {
         case .one:
-            return [
+            attributes = [
                 .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
                 .foregroundColor: foregroundColor
             ]
 
         case .two:
-            return [
+            attributes = [
                 .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold
             ]
 
         case .three:
-            return [
+            attributes = [
                 .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
                 .foregroundColor: secondaryForegroundColor
             ]
 
         case .four:
-            return [
+            attributes = [
                 .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
                 .foregroundColor: secondaryForegroundColor
             ]
 
         case .five:
-            return [
+            attributes = [
                 .foregroundColor: secondaryForegroundColor
             ]
 
         case .six:
-            return [
+            attributes = [
                 .foregroundColor: secondaryForegroundColor
             ]
         }
-    }
 
-    open func thematicBreak(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func table(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func tableRow(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func tableCell(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func text(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func softBreak(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func lineBreak(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func codeInline(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        [
-            .foregroundColor: secondaryForegroundColor
+        return [
+            Style(range: range, attributes: attributes)
         ]
     }
 
-    open func htmlInline(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func table(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func tableRow(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func tableCell(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func text(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func softBreak(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func lineBreak(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func codeInline(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: secondaryForegroundColor
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
     }
 
-    open func customInline(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        nil
-    }
-
-    open func emphasis(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func htmlInline(_ node: Node, range: NSRange) -> [Style] {
         [
-            .fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
     }
 
-    open func strong(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func customInline(_ node: Node, range: NSRange) -> [Style] {
+        []
+    }
+
+    open func emphasis(_ node: Node, range: NSRange) -> [Style] {
         [
-            .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold
+            Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic])
+        ] + delimiterStyles(for: node, range: range, attributes: [.foregroundColor: delimiterColor])
+    }
+
+    open func strong(_ node: Node, range: NSRange) -> [Style] {
+        [
+            Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold])
+        ] + delimiterStyles(for: node, range: range, attributes: [.foregroundColor: delimiterColor])
+    }
+
+    open func link(_ node: Node, range: NSRange) -> [Style] {
+        [
+            Style(range: range, attributes: [.foregroundColor: linkColor])
         ]
     }
 
-    open func link(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func image(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: linkColor
+            Style(range: range, attributes: [.foregroundColor: linkColor])
         ]
     }
 
-    open func image(_ node: Node) -> [NSAttributedString.Key: Any]? {
+    open func strikethrough(_ node: Node, range: NSRange) -> [Style] {
         [
-            .foregroundColor: linkColor
-        ]
-    }
-
-    open func strikethrough(_ node: Node) -> [NSAttributedString.Key: Any]? {
-        [
-            .strikethroughStyle: NSUnderlineStyle.single.rawValue
+            Style(range: range, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
         ]
     }
 
     // MARK: - Initializers
 
     public init() {}
+
+    // MARK: - Utilities
+
+    func delimiterStyles(for node: Node, range: NSRange, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+        guard let ranges = node.delimiters else {
+            return []
+        }
+
+        return ranges.map { range in
+            Style(range: range, attributes: attributes)
+        }
+    }
 }

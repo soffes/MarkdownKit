@@ -148,4 +148,13 @@ final class InlineTests: XCTestCase {
         XCTAssertEqual(NSRange(location: 6, length: 11), strong.range!)
         XCTAssertEqual(.strong, strong.kind)
     }
+
+    func testDelimiters() {
+        let markdown = "Hello **world**.\n"
+        let document = Parser.parse(markdown)!
+        let node = document.children[0].children[1]
+        XCTAssertEqual(NSRange(location: 6, length: 2), node.leadingDelimiter!)
+        XCTAssertEqual(NSRange(location: 13, length: 2), node.trailingDelimiter!)
+        XCTAssertEqual([NSRange(location: 6, length: 2), NSRange(location: 13, length: 2)], node.delimiters!)
+    }
 }

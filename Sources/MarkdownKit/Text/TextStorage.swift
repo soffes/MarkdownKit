@@ -97,16 +97,20 @@ public final class TextStorage: BaseTextStorage {
 
     private func addAttributes(for node: Node, currentFont: UIFont) {
         var currentFont = currentFont
-        let attributes = theme.attributes(for: node)
 
-        if var attributes = attributes, let range = node.range {
-            if let traits = attributes[.fontTraits] as? UIFontDescriptor.SymbolicTraits {
-                currentFont = currentFont.addingTraits(traits)
-                attributes[.font] = currentFont
-                attributes.removeValue(forKey: .fontTraits)
+        if let range = node.range {
+            let styles = theme.styles(for: node, range: range)
+
+            for style in styles {
+                var attributes = style.attributes
+                if let traits = attributes[.fontTraits] as? UIFontDescriptor.SymbolicTraits {
+                    currentFont = currentFont.addingTraits(traits)
+                    attributes[.font] = currentFont
+                    attributes.removeValue(forKey: .fontTraits)
+                }
+
+                addAttributes(attributes, range: style.range)
             }
-
-            addAttributes(attributes, range: range)
         }
 
         for child in node.children {
