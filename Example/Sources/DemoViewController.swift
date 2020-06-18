@@ -25,6 +25,8 @@ Here’s ***both***, ___both___, _**both**_, and __*both*__.
 
 Links? We [got ‘em](https://github.com)
 
+This is an image ![reef](https://soffes.s3.amazonaws.com/reef.jpg)
+
 Inline `code` too. You can do ```a silly amount of back ticks``` too.
 
 > Blockquote

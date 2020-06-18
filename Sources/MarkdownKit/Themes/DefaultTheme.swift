@@ -11,9 +11,6 @@ public final class DefaultTheme: Theme {
 	private let linkColor = UIColor(displayP3Red: 0.129, green: 0.516, blue: 0.686, alpha: 1)
 	private let imageColor = UIColor(displayP3Red: 0.546, green: 0.201, blue: 0.719, alpha: 1)
 
-    // TODO: Remove
-    private let isDarkModeEnabled = false
-
 	// MARK: - Theme
 
 	public func attributes(for node: Node) -> [NSAttributedString.Key: Any]? {
@@ -28,7 +25,7 @@ public final class DefaultTheme: Theme {
 			case .one:
 				return [
 					.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
-					.foregroundColor: UIColor(hex: isDarkModeEnabled ? "#fff" : "#000")!
+                    .foregroundColor: UIColor.label
 				]
 
 			case .two:
@@ -39,29 +36,29 @@ public final class DefaultTheme: Theme {
 			case .three:
 				return [
 					.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
-					.foregroundColor: UIColor(hex: isDarkModeEnabled ? "#b2b2b2" : "#4d4d4d")!
+                    .foregroundColor: UIColor.secondaryLabel
 				]
 
 			case .four:
 				return [
 					.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
-					.foregroundColor: UIColor(hex: isDarkModeEnabled ? "#7f7f7f" : "#808080")!
+                    .foregroundColor: UIColor.secondaryLabel
 				]
 
 			case .five:
 				return [
-					.foregroundColor: UIColor(hex: isDarkModeEnabled ? "#7f7f7f" : "#808080")!
+                    .foregroundColor: UIColor.secondaryLabel
 				]
 
 			case .six:
 				return [
-					.foregroundColor: UIColor(hex: isDarkModeEnabled ? "#656565" : "#9a9a9a")!
+                    .foregroundColor: UIColor.secondaryLabel
 				]
 			}
 
 		case .blockquote:
 			return [
-				.foregroundColor: UIColor(hex: "#3da25f")!
+                .foregroundColor: UIColor.secondaryLabel
 			]
 
 		case .strong:
@@ -74,21 +71,14 @@ public final class DefaultTheme: Theme {
 				.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic
 			]
 
-		case .link:
-			// TODO: title #72c0db
+        case .link, .image:
 			return [
-				.foregroundColor: linkColor
-			]
-
-		case .image:
-			// TODO: title #b477d2
-			return [
-				.foregroundColor: imageColor
+                .foregroundColor: UIColor.link
 			]
 
 		case .codeInline, .codeBlock, .htmlInline, .htmlBlock, .table:
 			return [
-				.foregroundColor: UIColor(hex: "#808080")!
+                .foregroundColor: UIColor.secondaryLabel
 			]
 
 		case .strikethrough:
