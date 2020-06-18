@@ -99,7 +99,6 @@ extension Kind: CustomStringConvertible {
 			return "tableRow"
 		case .tableCell:
 			return "tableCell"
-
 		case .text:
 			return "text"
 		case .softBreak:

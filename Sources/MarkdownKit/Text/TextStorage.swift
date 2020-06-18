@@ -33,23 +33,6 @@ public final class TextStorage: BaseTextStorage {
 		}
 	}
 
-
-	public var isDarkModeEnabled = false {
-		didSet {
-			guard theme.isDarkModeEnabled != isDarkModeEnabled else {
-				return
-			}
-
-			theme.isDarkModeEnabled = isDarkModeEnabled
-
-			if needsParse {
-				return
-			}
-
-			parse()
-		}
-	}
-
 	public private(set) var theme: Theme = DefaultTheme() {
 		didSet {
 			customDelegate?.textStorage(self, didChangeTheme: theme)
@@ -75,6 +58,9 @@ public final class TextStorage: BaseTextStorage {
 
 	// MARK: - Parsing
 
+    /// Reparse `string` and updated the attributes based on `theme`.
+    ///
+    /// This should be called from `textViewDidChange` or in `UITextView.text`’s `didSet`.
 	public func parseIfNeeded() {
 		guard needsParse else {
 			return
@@ -83,6 +69,7 @@ public final class TextStorage: BaseTextStorage {
 		parse()
 	}
 
+    /// Force parsing now. You should probably use `parseIfNeeded` instead.
 	public func parse() {
 		needsParse = false
 
@@ -128,5 +115,7 @@ public final class TextStorage: BaseTextStorage {
 }
 
 extension NSAttributedString.Key {
-	static let fontTraits = NSAttributedString.Key("FontTraits")
+    /// `UIFontDescriptor.SymbolicTraits` to use for the given range. Prefer this over customizing the font so sizes
+    /// and font traits can cascade.
+	public static let fontTraits = NSAttributedString.Key("FontTraits")
 }

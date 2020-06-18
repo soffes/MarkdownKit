@@ -7,10 +7,12 @@ public final class DefaultTheme: Theme {
 	public let name = "Default"
 
 	public var fontSize: CGFloat = 17
-	public var isDarkModeEnabled = false
 
 	private let linkColor = UIColor(displayP3Red: 0.129, green: 0.516, blue: 0.686, alpha: 1)
 	private let imageColor = UIColor(displayP3Red: 0.546, green: 0.201, blue: 0.719, alpha: 1)
+
+    // TODO: Remove
+    private let isDarkModeEnabled = false
 
 	// MARK: - Theme
 

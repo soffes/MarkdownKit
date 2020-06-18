@@ -1,27 +1,44 @@
 import UIKit
 
 public protocol Theme {
+    /// Name of the theme
 	var name: String { get }
 
-	var isDarkModeEnabled: Bool { get set }
+    /// Base font size
 	var fontSize: CGFloat { get set }
 
+    /// Primary font
 	var font: UIFont { get }
-	var foregroundColor: UIColor { get }
-	var backgroundColor: UIColor { get }
-	var baseAttributes: [NSAttributedString.Key: Any] { get }
 
+    /// Foreground color
+	var foregroundColor: UIColor { get }
+
+    /// Background color
+	var backgroundColor: UIColor { get }
+
+    /// Base attributes
+    var baseAttributes: [NSAttributedString.Key: Any] { get }
+
+    /// Attributes for a given node
+    ///
+    /// - parameter node: node to style
+    ///
+    /// - returns: attributes for the node
 	func attributes(for node: Node) -> [NSAttributedString.Key: Any]?
 }
 
 extension Theme {
 	public var foregroundColor: UIColor {
-		return UIColor(hex: isDarkModeEnabled ? "#ddd" : "#222")!
+        .label
 	}
 
 	public var backgroundColor: UIColor {
-		return isDarkModeEnabled ? UIColor(hex: "#222")! : .white
+        .systemBackground
 	}
+
+    public var fontSize: CGFloat {
+        17
+    }
 
 	public var font: UIFont {
 		return UIFont(name: "Menlo", size: fontSize)!

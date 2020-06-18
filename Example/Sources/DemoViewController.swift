@@ -27,6 +27,17 @@ Links? We [got ‘em](https://github.com)
 
 Inline `code` too. You can do ```a silly amount of back ticks``` too.
 
+> Blockquote
+
+- List
+* List
+
+1. One
+1. Two
+
+- [ ] Task list
+- [x] Done
+
 ---
 
 ```ruby

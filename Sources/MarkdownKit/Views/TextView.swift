@@ -1,5 +1,6 @@
 import UIKit
 
+/// Text view configured with custom Text Kit components
 public final class TextView: UITextView {
 
     // MARK: - Properties
