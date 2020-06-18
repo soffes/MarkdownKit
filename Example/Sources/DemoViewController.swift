@@ -48,18 +48,45 @@ final class DemoViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let textView = TextView()
+    private let textView: TextView = {
+        let view = TextView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.text = exampleDocument
+        view.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return view
+    }()
 
     // MARK: - UIViewController
-
-    override func loadView() {
-        view = textView
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        textView.text = exampleDocument
+        view.addSubview(textView)
+
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blur.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blur)
+
+        let blurBottom = blur.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -1)
+        blurBottom.priority = .defaultHigh
+
+        NSLayoutConstraint.activate([
+            blur.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blur.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blur.topAnchor.constraint(equalTo: view.topAnchor),
+            blurBottom,
+
+            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            textView.topAnchor.constraint(equalTo: view.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide),
+                                       name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillChange),
+                                       name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -67,15 +94,26 @@ final class DemoViewController: UIViewController {
         textView.becomeFirstResponder()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    // MARK: - Private
 
-        let padding: CGFloat = 16
-        var insets = view.safeAreaInsets
-        insets.top += padding
-        insets.right += padding
-        insets.bottom += padding
-        insets.left += padding
-        textView.contentInset = insets
+    @objc func keyboardWillHide(_ notification: Notification) {
+        textView.contentInset = .zero
+        textView.verticalScrollIndicatorInsets = textView.contentInset
+        textView.scrollRangeToVisible(textView.selectedRange)
+    }
+
+    @objc func keyboardWillChange(_ notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        textView.contentInset = UIEdgeInsets(top: 0, left: 0,
+                                             bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+
+        textView.verticalScrollIndicatorInsets = textView.contentInset
+        textView.scrollRangeToVisible(textView.selectedRange)
     }
 }
