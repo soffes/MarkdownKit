@@ -2,126 +2,126 @@ import UIKit
 
 extension TextStorage {
 
-	// MARK: - Manipulation
+    // MARK: - Manipulation
 
-	public func toggleBold(in selectedRange: NSRange) {
-		toggleSpan(.strong, selectedRange: selectedRange)
-	}
+    public func toggleBold(in selectedRange: NSRange) {
+        toggleSpan(.strong, selectedRange: selectedRange)
+    }
 
-	public func toggleItalic(in selectedRange: NSRange) {
-		toggleSpan(.emphasis, selectedRange: selectedRange)
-	}
+    public func toggleItalic(in selectedRange: NSRange) {
+        toggleSpan(.emphasis, selectedRange: selectedRange)
+    }
 
-	// MARK: - Private
+    // MARK: - Private
 
-	private func toggleSpan(_ kind: Kind, selectedRange: NSRange) {
-		let markdown: String
-		let actionName: String
+    private func toggleSpan(_ kind: Kind, selectedRange: NSRange) {
+        let markdown: String
+        let actionName: String
 
-		switch kind {
-		case .emphasis:
-			markdown = "*"
-			actionName = "Italic"
-		case .strong:
-			markdown = "**"
-			actionName = "Bold"
-		default:
-			assertionFailure("Tried to toggle unsupported span")
-			return
-		}
+        switch kind {
+        case .emphasis:
+            markdown = "*"
+            actionName = "Italic"
+        case .strong:
+            markdown = "**"
+            actionName = "Bold"
+        default:
+            assertionFailure("Tried to toggle unsupported span")
+            return
+        }
 
-		// If it's already this element, remove it.
-		guard var node = self.document?.node(for: selectedRange) else {
-			return
-		}
+        // If it's already this element, remove it.
+        guard var node = self.document?.node(for: selectedRange) else {
+            return
+        }
 
-		let delimiterLength = markdown.length
+        let delimiterLength = markdown.length
 
-		if node.kind == .text, let parent = node.parent {
-			node = parent
-		}
+        if node.kind == .text, let parent = node.parent {
+            node = parent
+        }
 
-		guard let nodeRange = node.range else {
-			return
-		}
+        guard let nodeRange = node.range else {
+            return
+        }
 
-		if node.kind == kind {
-			let innerRange = NSRange(location: nodeRange.location + delimiterLength,
-									 length: nodeRange.length - delimiterLength * 2)
-			let replacement = (string as NSString).substring(with: innerRange)
-			if !changeTextIn(nodeRange, with: replacement, actionName: actionName) {
-				return
-			}
+        if node.kind == kind {
+            let innerRange = NSRange(location: nodeRange.location + delimiterLength,
+                                     length: nodeRange.length - delimiterLength * 2)
+            let replacement = (string as NSString).substring(with: innerRange)
+            if !changeTextIn(nodeRange, with: replacement, actionName: actionName) {
+                return
+            }
 
-			if selectedRange.length == 0 {
-				updateSelectedRange(NSRange(location: selectedRange.location - delimiterLength, length: 0))
-			} else {
-				var updatedSelection = nodeRange
-				updatedSelection.length -= delimiterLength * 2
-				updateSelectedRange(updatedSelection)
-			}
-		}
+            if selectedRange.length == 0 {
+                updateSelectedRange(NSRange(location: selectedRange.location - delimiterLength, length: 0))
+            } else {
+                var updatedSelection = nodeRange
+                updatedSelection.length -= delimiterLength * 2
+                updateSelectedRange(updatedSelection)
+            }
+        }
 
-		// No selection, add characters and move cursor.
-		else if selectedRange.length == 0 {
-			let wordRange = self.string.wordRange(atIndex: selectedRange.location)
+        // No selection, add characters and move cursor.
+        else if selectedRange.length == 0 {
+            let wordRange = self.string.wordRange(atIndex: selectedRange.location)
 
-			if wordRange.location == NSNotFound {
-				return
-			}
+            if wordRange.location == NSNotFound {
+                return
+            }
 
-			// Not inside of a word. Just add the delmiters.
-			if wordRange.length == 0 {
-				let replacement = "\(markdown)\(markdown)"
-				if !changeTextIn(wordRange, with: replacement, actionName: actionName) {
-					return
-				}
-			}
+            // Not inside of a word. Just add the delmiters.
+            if wordRange.length == 0 {
+                let replacement = "\(markdown)\(markdown)"
+                if !changeTextIn(wordRange, with: replacement, actionName: actionName) {
+                    return
+                }
+            }
 
-			// Inside of a word. Toggle the whole word.
-			else {
-				let string = (self.string as NSString).substring(with: wordRange)
-				let replacement = "\(markdown)\(string)\(markdown)"
-				if !changeTextIn(wordRange, with: replacement, actionName: actionName) {
-					return
-				}
-			}
+            // Inside of a word. Toggle the whole word.
+            else {
+                let string = (self.string as NSString).substring(with: wordRange)
+                let replacement = "\(markdown)\(string)\(markdown)"
+                if !changeTextIn(wordRange, with: replacement, actionName: actionName) {
+                    return
+                }
+            }
 
-			updateSelectedRange(NSRange(location: selectedRange.location + delimiterLength, length: 0))
-		}
+            updateSelectedRange(NSRange(location: selectedRange.location + delimiterLength, length: 0))
+        }
 
-		// Selection, add text.
-		else {
-			let string = (self.string as NSString).substring(with: selectedRange)
-			let replacement = "\(markdown)\(string)\(markdown)"
+        // Selection, add text.
+        else {
+            let string = (self.string as NSString).substring(with: selectedRange)
+            let replacement = "\(markdown)\(string)\(markdown)"
 
-			if !changeTextIn(selectedRange, with: replacement, actionName: actionName) {
-				return
-			}
+            if !changeTextIn(selectedRange, with: replacement, actionName: actionName) {
+                return
+            }
 
-			var updatedSelection = selectedRange
-			updatedSelection.length += delimiterLength * 2
-			updateSelectedRange(updatedSelection)
-		}
+            var updatedSelection = selectedRange
+            updatedSelection.length += delimiterLength * 2
+            updateSelectedRange(updatedSelection)
+        }
 
-		parse()
-	}
+        parse()
+    }
 
-	private func changeTextIn(_ range: NSRange, with replacement: String, actionName: String) -> Bool {
-		guard let customDelegate = customDelegate else {
-			assertionFailure("Tried to message missing delegate")
-			return false
-		}
+    private func changeTextIn(_ range: NSRange, with replacement: String, actionName: String) -> Bool {
+        guard let customDelegate = customDelegate else {
+            assertionFailure("Tried to message missing delegate")
+            return false
+        }
 
-		return customDelegate.textStorage(self, shouldChangeTextIn: range, with: replacement, actionName: actionName)
-	}
+        return customDelegate.textStorage(self, shouldChangeTextIn: range, with: replacement, actionName: actionName)
+    }
 
-	private func updateSelectedRange(_ range: NSRange) {
-		guard let customDelegate = customDelegate else {
-			assertionFailure("Tried to message missing delegate")
-			return
-		}
+    private func updateSelectedRange(_ range: NSRange) {
+        guard let customDelegate = customDelegate else {
+            assertionFailure("Tried to message missing delegate")
+            return
+        }
 
-		return customDelegate.textStorage(self, didUpdateSelectedRange: range)
-	}
+        return customDelegate.textStorage(self, didUpdateSelectedRange: range)
+    }
 }

@@ -22,7 +22,7 @@ public final class TextView: UITextView {
         smartQuotesType = .no
         typingAttributes = customTextStorage.typingAttributes
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
