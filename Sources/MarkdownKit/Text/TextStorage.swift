@@ -17,7 +17,7 @@ public final class TextStorage: BaseTextStorage {
 
     public private(set) var document: Document?
 
-    public var theme = Theme() {
+    public var theme = DefaultTheme() {
         didSet {
             customDelegate?.textStorage(self, didChangeTheme: theme)
             refreshTheme()
