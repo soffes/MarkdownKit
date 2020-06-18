@@ -1,13 +1,13 @@
 import UIKit
 
 /// Text view configured with custom Text Kit components
-public final class TextView: UITextView {
+open class TextView: UITextView {
 
     // MARK: - Properties
 
-    private let customTextContainer = TextContainer()
-    private let customLayoutManager = LayoutManager()
-    private let customTextStorage = TextStorage()
+    public let customTextContainer = TextContainer()
+    public let customLayoutManager = LayoutManager()
+    public let customTextStorage = TextStorage()
 
     // MARK: - Initializers
 
@@ -23,13 +23,14 @@ public final class TextView: UITextView {
         typingAttributes = customTextStorage.typingAttributes
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - UIView
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
@@ -39,7 +40,7 @@ public final class TextView: UITextView {
 
     // MARK: - UITextView
 
-    public override var text: String! {
+    open override var text: String! {
         didSet {
             customTextStorage.parseIfNeeded()
         }
@@ -47,7 +48,7 @@ public final class TextView: UITextView {
 }
 
 extension TextView: UITextViewDelegate {
-    public func textViewDidChange(_ textView: UITextView) {
+    open func textViewDidChange(_ textView: UITextView) {
         customTextStorage.parseIfNeeded()
     }
 }

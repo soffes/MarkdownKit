@@ -17,9 +17,10 @@ public final class TextStorage: BaseTextStorage {
 
     public private(set) var document: Document?
 
-    public private(set) var theme: Theme = DefaultTheme() {
+    public var theme: Theme = DefaultTheme() {
         didSet {
             customDelegate?.textStorage(self, didChangeTheme: theme)
+            refreshTheme()
         }
     }
 
@@ -71,6 +72,11 @@ public final class TextStorage: BaseTextStorage {
         endEditing()
     }
 
+    /// Reapply the theme without reparsing the document.
+    ///
+    /// This is automatically called after setting the `theme` property. You should only use this if a derived property
+    /// in your theme changes. For example, maybe your theme’s font is based on Dynamic Type, you could call this method
+    /// when you detect a Dynamic Type change.
     public func refreshTheme() {
         guard let document = document else {
             return
