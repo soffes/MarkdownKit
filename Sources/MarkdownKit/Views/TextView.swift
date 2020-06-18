@@ -27,6 +27,16 @@ public final class TextView: UITextView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - UIView
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            parse(force: true)
+        }
+    }
+
     // MARK: - UITextView
 
     public override var text: String! {
@@ -37,8 +47,12 @@ public final class TextView: UITextView {
 
     // MARK: - Private
 
-    private func parse() {
-        customTextStorage.parseIfNeeded()
+    private func parse(force: Bool = false) {
+        if force {
+            customTextStorage.parse()
+        } else {
+            customTextStorage.parseIfNeeded()
+        }
     }
 }
 

@@ -20,7 +20,7 @@ public final class DefaultTheme: Theme {
             case .one:
                 return [
                     .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
-                    .foregroundColor: UIColor.label
+                    .foregroundColor: foregroundColor
                 ]
 
             case .two:

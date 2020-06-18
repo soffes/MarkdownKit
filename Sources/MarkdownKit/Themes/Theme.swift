@@ -4,9 +4,6 @@ public protocol Theme {
     /// Name of the theme
     var name: String { get }
 
-    /// Base font size
-    var fontSize: CGFloat { get set }
-
     /// Primary font
     var font: UIFont { get }
 
@@ -37,7 +34,7 @@ extension Theme {
     }
 
     public var fontSize: CGFloat {
-        17
+        UIFont.preferredFont(forTextStyle: .body).pointSize
     }
 
     public var font: UIFont {

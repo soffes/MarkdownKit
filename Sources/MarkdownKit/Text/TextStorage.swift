@@ -17,22 +17,6 @@ public final class TextStorage: BaseTextStorage {
 
     public private(set) var document: Document?
 
-    public var fontSize: CGFloat = 0 {
-        didSet {
-            guard theme.fontSize != fontSize else {
-                return
-            }
-
-            theme.fontSize = fontSize
-
-            if needsParse {
-                return
-            }
-
-            parse()
-        }
-    }
-
     public private(set) var theme: Theme = DefaultTheme() {
         didSet {
             customDelegate?.textStorage(self, didChangeTheme: theme)
