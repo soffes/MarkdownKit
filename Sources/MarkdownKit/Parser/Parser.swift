@@ -6,7 +6,10 @@ public struct Parser {
 
     public struct Option: OptionSet {
         public let rawValue: Int32
-        public init(rawValue: Int32) { self.rawValue = rawValue }
+
+        public init(rawValue: Int32) {
+            self.rawValue = rawValue
+        }
 
         /// Normalize tree by consolidating adjacent text nodes.
         public static let normalize = Option(rawValue: CMARK_OPT_NORMALIZE)

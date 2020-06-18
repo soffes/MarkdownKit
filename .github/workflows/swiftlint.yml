@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/swiftlint.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'
+  push:
+    branches:
+      - main
+
+name: SwiftLint
+
+jobs:
+  SwiftLint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: SwiftLint
+        uses: docker://norionomura/swiftlint:0.39.1
+        with:
+          args: swiftlint --strict --reporter github-actions-logging
