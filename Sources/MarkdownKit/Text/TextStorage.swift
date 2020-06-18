@@ -62,7 +62,7 @@ public final class TextStorage: BaseTextStorage {
 
         if let document = Parser.parse(string) {
             self.document = document
-            customDelegate?.textStorage(self, didParseDocument: document)
+        customDelegate?.textStorage(self, didParseDocument: document)
             addAttributes(for: document, currentFont: theme.font)
         } else {
             self.document = nil
@@ -81,7 +81,7 @@ public final class TextStorage: BaseTextStorage {
         addAttributes(for: document, currentFont: theme.font)
         endEditing()
     }
-    
+
     // MARK: - Private
 
     /// Reset all attributes. Down the road, we could detect the maximum affect area and only reset those.

@@ -56,8 +56,8 @@ public struct NodeList: Collection, Sequence {
         return element
     }
 
-    public func index(after i: Index) -> Index {
-        return i + 1
+    public func index(after index: Index) -> Index {
+        return index + 1
     }
 
     // MARK: - Sequence

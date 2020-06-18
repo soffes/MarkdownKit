@@ -20,7 +20,6 @@ extension String {
             return range
         }
 
-        // TODO: Handle this
         return NSRange(location: NSNotFound, length: 0)
     }
 

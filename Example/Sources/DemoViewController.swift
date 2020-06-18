@@ -1,22 +1,7 @@
 import MarkdownKit
 import UIKit
 
-final class DemoViewController: UIViewController {
-
-    // MARK: - Properties
-
-    private let textView = TextView()
-
-    // MARK: - UIViewController
-
-    override func loadView() {
-        view = textView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        textView.text = """
+private let exampleDocument = """
 This is **bold** and __bold__.
 
 Here is *italic* and _italic_.
@@ -58,6 +43,23 @@ puts "hi"
 
 ###### Heading 6
 """
+
+final class DemoViewController: UIViewController {
+
+    // MARK: - Properties
+
+    private let textView = TextView()
+
+    // MARK: - UIViewController
+
+    override func loadView() {
+        view = textView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        textView.text = exampleDocument
     }
 
     override func viewDidAppear(_ animated: Bool) {

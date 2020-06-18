@@ -13,7 +13,9 @@ public class BaseTextStorage: NSTextStorage {
         return storage.string
     }
 
-    public override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [NSAttributedString.Key: Any] {
+    public override func attributes(at location: Int, effectiveRange range: NSRangePointer?)
+        -> [NSAttributedString.Key: Any]
+    {
         assert(location < length,
                "Tried to access attributes at out of bounds index \(location). Length: \(length)")
         return storage.attributes(at: location, effectiveRange: range)

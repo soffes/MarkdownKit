@@ -1,34 +1,8 @@
-whitelist_rules:
-  - empty_count
-  - file_header
-  - explicit_init
-  - closure_spacing
-  - overridden_super_call
-  - redundant_nil_coalescing
-  - private_outlet
-  - nimble_operator
-  - attributes
-  - operator_usage_whitespace
-  - closure_end_indentation
-  - first_where
-  - sorted_imports
-  - object_literal
-  - number_separator
-  - prohibited_super_call
-  - fatal_error_message
-  - let_var_whitespace
-  - unneeded_parentheses_in_closure_argument
-  - pattern_matching_keywords
-  - array_init
-  - literal_expression_end_indentation
-  - joined_default_parameter
-  - contains_over_first_not_nil
-  - override_in_extension
-  - private_action
-  - quick_discouraged_call
-  - quick_discouraged_focused_test
-  - quick_discouraged_pending_test
-  - single_test_class
-  - sorted_first_last
-  - yoda_condition
+included:
+  - Example
+  - Sources
+disabled_rules:
+  - cyclomatic_complexity
+  - function_body_length
+  - opening_brace
 line_length: 120

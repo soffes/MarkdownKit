@@ -52,9 +52,9 @@ extension Kind {
 
     public var isInline: Bool {
         switch self {
-            case .text, .softBreak, .lineBreak, .codeInline, .htmlInline, .customInline, .emphasis, .strong, .link,
-                 .image, .strikethrough:
-                return true
+        case .text, .softBreak, .lineBreak, .codeInline, .htmlInline, .customInline, .emphasis, .strong, .link,
+             .image, .strikethrough:
+            return true
         default:
             return false
         }
