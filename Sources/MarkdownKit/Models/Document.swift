@@ -5,8 +5,13 @@ public final class Document: Node {
 
     // MARK: - Properties
 
+    /// The text content of the first child if it’s an `<h1>`
     public var title: String? {
-        return children.first { ($0 as? Heading)?.level == .one }?.content
+        guard let node = firstChild as? Heading, node.level == .one else {
+            return nil
+        }
+
+        return node.content
     }
 
     private let _content: String

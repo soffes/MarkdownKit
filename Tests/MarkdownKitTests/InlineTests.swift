@@ -107,6 +107,8 @@ final class InlineTests: XCTestCase {
         let node = paragraph.children[1]
         XCTAssertEqual(NSRange(location: 6, length: 37), node.range!)
         XCTAssertEqual(.link, node.kind)
+        XCTAssertEqual("http://example.com", (node as? Link)?.url?.absoluteString)
+        XCTAssertEqual("Example", (node as? Link)?.title)
     }
 
     func testImage() {
@@ -149,12 +151,28 @@ final class InlineTests: XCTestCase {
         XCTAssertEqual(.strong, strong.kind)
     }
 
-    func testDelimiters() {
+    // MARK: - Delimiters
+
+    func testEmphasisDelimiters() {
+        let markdown = "Hello *world*.\n"
+        let document = Parser.parse(markdown)!
+        let node = document.children[0].children[1]
+        XCTAssertEqual([NSRange(location: 6, length: 1), NSRange(location: 12, length: 1)], node.delimiters!)
+    }
+
+    func testStrongDelimiters() {
         let markdown = "Hello **world**.\n"
         let document = Parser.parse(markdown)!
         let node = document.children[0].children[1]
-        XCTAssertEqual(NSRange(location: 6, length: 2), node.leadingDelimiter!)
-        XCTAssertEqual(NSRange(location: 13, length: 2), node.trailingDelimiter!)
         XCTAssertEqual([NSRange(location: 6, length: 2), NSRange(location: 13, length: 2)], node.delimiters!)
+    }
+
+    func testLinkDelimiters() {
+        let markdown = "Hello [world](https://example.com).\n"
+        let document = Parser.parse(markdown)!
+        let node = document.children[0].children[1]
+        XCTAssertEqual([
+            NSRange(location: 6, length: 1), NSRange(location: 12, length: 2), NSRange(location: 33, length: 1)
+        ], node.delimiters!)
     }
 }

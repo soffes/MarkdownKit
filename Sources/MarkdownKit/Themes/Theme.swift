@@ -265,25 +265,25 @@ open class Theme {
     open func emphasis(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic])
-        ] + delimiterStyles(for: node, range: range, attributes: [.foregroundColor: delimiterColor])
+        ] + delimiterStyles(for: node, attributes: [.foregroundColor: delimiterColor])
     }
 
     open func strong(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold])
-        ] + delimiterStyles(for: node, range: range, attributes: [.foregroundColor: delimiterColor])
+        ] + delimiterStyles(for: node, attributes: [.foregroundColor: delimiterColor])
     }
 
     open func link(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.foregroundColor: linkColor])
-        ]
+            ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
     }
 
     open func image(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.foregroundColor: linkColor])
-        ]
+        ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
     }
 
     open func strikethrough(_ node: Node, range: NSRange) -> [Style] {
@@ -298,7 +298,7 @@ open class Theme {
 
     // MARK: - Utilities
 
-    func delimiterStyles(for node: Node, range: NSRange, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+    func delimiterStyles(for node: Node, attributes: [NSAttributedString.Key: Any]) -> [Style] {
         guard let ranges = node.delimiters else {
             return []
         }
@@ -306,5 +306,15 @@ open class Theme {
         return ranges.map { range in
             Style(range: range, attributes: attributes)
         }
+    }
+
+    func urlStyles(for node: Node, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+        guard let urlRange = (node as? Link)?.urlRange else {
+            return []
+        }
+
+        return [
+            Style(range: urlRange, attributes: attributes)
+        ]
     }
 }

@@ -10,11 +10,11 @@ public class Node {
 
     /// Node type
     public var kind: Kind {
-        return cmark_node_get_type(node)
+        cmark_node_get_type(node)
     }
 
     public var parent: Node? {
-        return cmark_node_parent(node).map { Node.with($0, document: document) }
+        cmark_node_parent(node).map { Node.with($0, document: document) }
     }
 
     /// All child nodes
@@ -32,19 +32,19 @@ public class Node {
 
     /// Start location
     public var start: Location? {
-        return Location(line: Int(cmark_node_get_start_line(node)), column: Int(cmark_node_get_start_column(node)))
+        Location(line: Int(cmark_node_get_start_line(node)), column: Int(cmark_node_get_start_column(node)))
     }
 
     /// End location
     public var end: Location? {
-        return Location(line: Int(cmark_node_get_end_line(node)), column: Int(cmark_node_get_end_column(node)))
+        Location(line: Int(cmark_node_get_end_line(node)), column: Int(cmark_node_get_end_column(node)))
     }
 
     /// String content
     ///
     /// - note: This is only present for block nodes and inline `text` ndoes.
     public var content: String? {
-        return cmark_node_get_literal(node).map(String.init) ?? String(node.pointee.content)
+        cmark_node_get_literal(node).map(String.init) ?? String(node.pointee.content)
     }
 
     public private(set) weak var document: Document?
@@ -74,25 +74,7 @@ public class Node {
         return range
     }
 
-    public var leadingDelimiter: NSRange? {
-        guard let childRange = firstChild?.range, let range = range, range != childRange else {
-            return nil
-        }
-
-        return NSRange(location: range.location, length: childRange.location - range.location)
-    }
-
-    public var trailingDelimiter: NSRange? {
-        guard let childRange = firstChild?.range, let range = range, range != childRange else {
-            return nil
-        }
-
-        return NSRange(location: NSMaxRange(childRange), length: NSMaxRange(range) - NSMaxRange(childRange))
-    }
-
     public var delimiters: [NSRange]? {
-        // This method reimplements `leadingDelimiter` and `trailingDelimiter` for performance since converting ranges
-        // from cmark to `NSRange` is a bit slow.
         guard let childRange = firstChild?.range, let range = range, range != childRange else {
             return nil
         }
@@ -130,6 +112,10 @@ public class Node {
             return Heading(node, document: document)
         case .item:
             return ListItem(node, document: document)
+        case .link:
+            return Link(node, document: document)
+        case .image:
+            return Image(node, document: document)
         default:
             return Node(node, document: document)
         }
@@ -138,7 +124,7 @@ public class Node {
     // MARK: - Querying
 
     public func contains(_ index: Int) -> Bool {
-        return range.flatMap { $0.contains(index) } ?? false
+        range.flatMap { $0.contains(index) } ?? false
     }
 
     /// Find the deepest node at `index`.
@@ -189,6 +175,6 @@ public class Node {
 
 extension Node: CustomStringConvertible {
     public var description: String {
-        return "<Node kind: \(kind)>"
+        "<Node kind: \(kind)>"
     }
 }
