@@ -29,18 +29,6 @@ final class InlineTests: XCTestCase {
     // MARK: - Inlines
 
     func testInlineCode() {
-        let markdown = "Hello ````world````.\n"
-        let document = Parser.parse(markdown)!
-
-        let paragraph = document.children[0]
-        XCTAssertEqual(3, paragraph.children.count)
-
-        let node = paragraph.children[1]
-        XCTAssertEqual(NSRange(location: 6, length: 13), node.range!)
-        XCTAssertEqual(.codeInline, node.kind)
-    }
-
-    func testMultiInlineCode() {
         let markdown = "Hello `world`.\n"
         let document = Parser.parse(markdown)!
 
@@ -49,6 +37,18 @@ final class InlineTests: XCTestCase {
 
         let node = paragraph.children[1]
         XCTAssertEqual(NSRange(location: 6, length: 7), node.range!)
+        XCTAssertEqual(.codeInline, node.kind)
+    }
+
+    func testMultiInlineCode() {
+        let markdown = "Hello ````world````.\n"
+        let document = Parser.parse(markdown)!
+
+        let paragraph = document.children[0]
+        XCTAssertEqual(3, paragraph.children.count)
+
+        let node = paragraph.children[1]
+        XCTAssertEqual(NSRange(location: 6, length: 13), node.range!)
         XCTAssertEqual(.codeInline, node.kind)
     }
 
