@@ -138,7 +138,7 @@ open class Theme {
         nil
     }
 
-    open func blockquote(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func blockquote(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: secondaryForegroundColor
         ]
@@ -152,7 +152,7 @@ open class Theme {
         nil
     }
 
-    open func codeBlock(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func codeBlock(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: secondaryForegroundColor
         ]
@@ -237,13 +237,13 @@ open class Theme {
         nil
     }
 
-    open func codeInline(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func codeInline(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: secondaryForegroundColor
         ]
     }
 
-    open func htmlInline(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func htmlInline(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: secondaryForegroundColor
         ]
@@ -265,13 +265,13 @@ open class Theme {
         ]
     }
 
-    open func link(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func link(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: linkColor
         ]
     }
 
-    open func image(_ node: Node) -> [NSAttributedString.Key : Any]? {
+    open func image(_ node: Node) -> [NSAttributedString.Key: Any]? {
         [
             .foregroundColor: linkColor
         ]
@@ -282,7 +282,6 @@ open class Theme {
             .strikethroughStyle: NSUnderlineStyle.single.rawValue
         ]
     }
-
 
     // MARK: - Initializers
 
