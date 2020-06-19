@@ -20,7 +20,7 @@ open class DefaultTheme: Theme {
     // MARK: - Theme
 
     open override var font: UIFont {
-        return UIFont(name: "Menlo", size: UIFont.preferredFont(forTextStyle: .body).pointSize)!
+        return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
     }
 
     open override var baseAttributes: [NSAttributedString.Key: Any] {
@@ -35,7 +35,7 @@ open class DefaultTheme: Theme {
     }
 
     open override func blockquote(_ node: Node, range: NSRange) -> [Style] {
-        delimiterStyles(for: node)
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])] + delimiterStyles(for: node)
     }
 
     open override func codeBlock(_ node: Node, range: NSRange) -> [Style] {
@@ -130,8 +130,13 @@ open class DefaultTheme: Theme {
     }
 
     open override func strikethrough(_ node: Node, range: NSRange) -> [Style] {
-        [Style(range: range, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])]
-            + delimiterStyles(for: node)
+        [
+            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor]),
+            Style(range: node.firstChild!.range!, attributes: [
+                .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                .strikethroughColor: foregroundColor
+            ])
+        ] + delimiterStyles(for: node)
     }
 
     // MARK: - Initializers
