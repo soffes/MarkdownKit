@@ -68,6 +68,11 @@ open class Theme {
             return heading(node, range: range)
 
         case .thematicBreak:
+            guard let node = node as? ThematicBreak else {
+                assertionFailure("Expected `ThematicBreak` node")
+                return []
+            }
+
             return thematicBreak(node, range: range)
 
         case .table:
@@ -164,7 +169,7 @@ open class Theme {
         []
     }
 
-    open func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
+    open func thematicBreak(_ node: ThematicBreak, range: NSRange) -> [Style] {
         []
     }
 

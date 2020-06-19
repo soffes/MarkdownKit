@@ -110,6 +110,8 @@ public class Node {
         switch cmark_node_get_type(node) {
         case .heading:
             return Heading(node, document: document)
+        case .thematicBreak:
+            return ThematicBreak(node, document: document)
         case .item:
             return ListItem(node, document: document)
         case .link:

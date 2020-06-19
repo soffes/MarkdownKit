@@ -35,21 +35,15 @@ open class DefaultTheme: Theme {
     }
 
     open override func blockquote(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
-        ]
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])]
     }
 
     open override func codeBlock(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
-        ]
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])]
     }
 
     open override func htmlBlock(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
-        ]
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])]
     }
 
     open override func heading(_ node: Heading, range: NSRange) -> [Style] {
@@ -89,61 +83,51 @@ open class DefaultTheme: Theme {
             ]
         }
 
-        return [
-            Style(range: range, attributes: attributes)
-        ]
+        return [Style(range: range, attributes: attributes)]
     }
 
     open override func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [
-                .foregroundColor: delimiterColor,
                 .thematicBreak: true,
                 .thematicBreakColor: foregroundColor.withAlphaComponent(0.2)
             ])
-        ]
+        ] + delimiterStyles(for: node)
     }
 
     open override func codeInline(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
-        ]
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])] + delimiterStyles(for: node)
     }
 
     open override func htmlInline(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
-        ]
+        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])]
     }
 
     open override func emphasis(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic])
-        ] + delimiterStyles(for: node, attributes: [.foregroundColor: delimiterColor])
+        [Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic])]
+            + delimiterStyles(for: node)
     }
 
     open override func strong(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold])
-        ] + delimiterStyles(for: node, attributes: [.foregroundColor: delimiterColor])
+        [Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold])]
+            + delimiterStyles(for: node)
     }
 
     open override func link(_ node: Link, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: linkColor])
-        ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        [Style(range: range, attributes: [.foregroundColor: linkColor])]
+            + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)])
+            + urlStyles(for: node)
     }
 
     open override func image(_ node: Image, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.foregroundColor: linkColor])
-        ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        [Style(range: range, attributes: [.foregroundColor: linkColor])]
+            + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)])
+            + urlStyles(for: node)
     }
 
     open override func strikethrough(_ node: Node, range: NSRange) -> [Style] {
-        [
-            Style(range: range, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-        ]
+        [Style(range: range, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])]
+            + delimiterStyles(for: node)
     }
 
     // MARK: - Initializers
@@ -154,23 +138,26 @@ open class DefaultTheme: Theme {
 
     // MARK: - Utilities
 
-    func delimiterStyles(for node: Node, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+    func delimiterStyles(for node: Node, attributes: [NSAttributedString.Key: Any]? = nil) -> [Style] {
         guard let ranges = node.delimiters else {
             return []
         }
+
+        let attributes = attributes ?? [.foregroundColor: delimiterColor]
 
         return ranges.map { range in
             Style(range: range, attributes: attributes)
         }
     }
 
-    func urlStyles(for node: Link, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+    func urlStyles(for node: Link,
+                   attributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        -> [Style]
+    {
         guard let urlRange = node.urlRange else {
             return []
         }
 
-        return [
-            Style(range: urlRange, attributes: attributes)
-        ]
+        return [Style(range: urlRange, attributes: attributes)]
     }
 }

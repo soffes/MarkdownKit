@@ -143,5 +143,6 @@ final class BlockTests: XCTestCase {
         let block = document.children[1]
         XCTAssertEqual(.thematicBreak, block.kind)
         XCTAssertEqual(NSRange(location: 7, length: 3), block.range!)
+        XCTAssertEqual([NSRange(location: 7, length: 3)], block.delimiters!)
     }
 }
