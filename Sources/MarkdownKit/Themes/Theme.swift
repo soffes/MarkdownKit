@@ -104,9 +104,19 @@ open class Theme {
             return strong(node, range: range)
 
         case .link:
+            guard let node = node as? Link else {
+                assertionFailure("Expected `Link` node")
+                return []
+            }
+
             return link(node, range: range)
 
         case .image:
+            guard let node = node as? Image else {
+                assertionFailure("Expected `Image` node")
+                return []
+            }
+
             return image(node, range: range)
 
         case .strikethrough:
@@ -202,11 +212,11 @@ open class Theme {
         []
     }
 
-    open func link(_ node: Node, range: NSRange) -> [Style] {
+    open func link(_ node: Link, range: NSRange) -> [Style] {
         []
     }
 
-    open func image(_ node: Node, range: NSRange) -> [Style] {
+    open func image(_ node: Image, range: NSRange) -> [Style] {
         []
     }
 

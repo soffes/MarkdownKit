@@ -128,13 +128,13 @@ open class DefaultTheme: Theme {
         ] + delimiterStyles(for: node, attributes: [.foregroundColor: delimiterColor])
     }
 
-    open override func link(_ node: Node, range: NSRange) -> [Style] {
+    open override func link(_ node: Link, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.foregroundColor: linkColor])
-            ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
     }
 
-    open override func image(_ node: Node, range: NSRange) -> [Style] {
+    open override func image(_ node: Image, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.foregroundColor: linkColor])
         ] + delimiterStyles(for: node, attributes: [.foregroundColor: linkColor.withAlphaComponent(0.5)]) + urlStyles(for: node, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
@@ -164,8 +164,8 @@ open class DefaultTheme: Theme {
         }
     }
 
-    func urlStyles(for node: Node, attributes: [NSAttributedString.Key: Any]) -> [Style] {
-        guard let urlRange = (node as? Link)?.urlRange else {
+    func urlStyles(for node: Link, attributes: [NSAttributedString.Key: Any]) -> [Style] {
+        guard let urlRange = node.urlRange else {
             return []
         }
 
