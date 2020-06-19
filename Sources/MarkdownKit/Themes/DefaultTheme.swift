@@ -35,7 +35,7 @@ open class DefaultTheme: Theme {
     }
 
     open override func blockquote(_ node: Node, range: NSRange) -> [Style] {
-        [Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])]
+        delimiterStyles(for: node)
     }
 
     open override func codeBlock(_ node: Node, range: NSRange) -> [Style] {
@@ -83,7 +83,7 @@ open class DefaultTheme: Theme {
             ]
         }
 
-        return [Style(range: range, attributes: attributes)]
+        return [Style(range: range, attributes: attributes)] + delimiterStyles(for: node)
     }
 
     open override func item(_ node: ListItem, range: NSRange) -> [Style] {
