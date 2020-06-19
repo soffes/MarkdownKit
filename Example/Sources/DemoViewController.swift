@@ -12,7 +12,11 @@ Links? We [got ‘em](https://github.com)
 
 This is an image ![reef](https://soffes.s3.amazonaws.com/reef.jpg)
 
+This is ~~strikethrough~~.
+
 Inline `code` too. You can do ```a silly amount of back ticks``` too.
+
+---
 
 > Blockquote
 
@@ -24,8 +28,6 @@ Inline `code` too. You can do ```a silly amount of back ticks``` too.
 
 - [ ] Task list
 - [x] Done
-
----
 
 ```ruby
 puts "hi"
