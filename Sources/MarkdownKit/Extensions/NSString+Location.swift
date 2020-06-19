@@ -60,7 +60,7 @@ extension NSString {
 
     private func convertUTF8ToUTF16Length(in string: String, length: Int) -> Int {
         let utf8 = string.utf8
-        let index = utf8.index(utf8.startIndex, offsetBy: length)
+        let index = utf8.index(utf8.startIndex, offsetBy: min(length, utf8.count))
 
         var cString = utf8[utf8.startIndex..<index].map(CChar.init)
 
