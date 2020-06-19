@@ -52,7 +52,6 @@ public class Node {
     /// Range of the node in the document’s string
     public var range: NSRange? {
         guard let start = start else {
-            assertionFailure("Missing `start`")
             return nil
         }
 
@@ -82,7 +81,7 @@ public class Node {
         return [
             NSRange(location: range.location, length: childRange.location - range.location),
             NSRange(location: NSMaxRange(childRange), length: NSMaxRange(range) - NSMaxRange(childRange))
-        ]
+        ].filter { $0.length > 0}
     }
 
     /// Recursive description

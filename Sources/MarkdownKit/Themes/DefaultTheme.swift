@@ -86,6 +86,10 @@ open class DefaultTheme: Theme {
         return [Style(range: range, attributes: attributes)]
     }
 
+    open override func item(_ node: ListItem, range: NSRange) -> [Style] {
+        delimiterStyles(for: node)
+    }
+
     open override func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [
