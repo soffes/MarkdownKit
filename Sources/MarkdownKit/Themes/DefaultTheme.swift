@@ -94,6 +94,16 @@ open class DefaultTheme: Theme {
         ]
     }
 
+    open override func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
+        [
+            Style(range: range, attributes: [
+                .foregroundColor: delimiterColor,
+                .thematicBreak: true,
+                .thematicBreakColor: foregroundColor.withAlphaComponent(0.2)
+            ])
+        ]
+    }
+
     open override func codeInline(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
@@ -104,10 +114,6 @@ open class DefaultTheme: Theme {
         [
             Style(range: range, attributes: [.foregroundColor: secondaryForegroundColor])
         ]
-    }
-
-    open override func customInline(_ node: Node, range: NSRange) -> [Style] {
-        []
     }
 
     open override func emphasis(_ node: Node, range: NSRange) -> [Style] {

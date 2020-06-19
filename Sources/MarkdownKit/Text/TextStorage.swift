@@ -118,9 +118,3 @@ public final class TextStorage: BaseTextStorage {
         }
     }
 }
-
-extension NSAttributedString.Key {
-    /// `UIFontDescriptor.SymbolicTraits` to use for the given range. Prefer this over customizing the font so sizes
-    /// and font traits can cascade.
-    public static let fontTraits = NSAttributedString.Key("FontTraits")
-}
