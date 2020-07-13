@@ -16,14 +16,19 @@ public class BaseTextStorage: NSTextStorage {
     public override func attributes(at location: Int, effectiveRange range: NSRangePointer?)
         -> [NSAttributedString.Key: Any]
     {
-        assert(location < length,
-               "Tried to access attributes at out of bounds index \(location). Length: \(length)")
+        guard location < length else {
+            assertionFailure("Tried to access attributes at out of bounds index \(location). Length: \(length)")
+            return [:]
+        }
+
         return storage.attributes(at: location, effectiveRange: range)
     }
 
     public override func replaceCharacters(in range: NSRange, with string: String) {
-        assert(NSMaxRange(range) <= length,
-               "Tried to replace characters at out of bounds range \(range). Length: \(length)")
+        guard NSMaxRange(range) <= length else {
+            assertionFailure("Tried to replace characters at out of bounds range \(range). Length: \(length)")
+            return
+        }
 
         let stringLength = (string as NSString).length
         if range.length == 0 && stringLength == 0 {
@@ -37,8 +42,10 @@ public class BaseTextStorage: NSTextStorage {
     }
 
     public override func setAttributes(_ attributes: [NSAttributedString.Key: Any]?, range: NSRange) {
-        assert(NSMaxRange(range) <= self.length,
-               "Tried to set attributes at out of bounds range \(range). Length: \(length)")
+        guard NSMaxRange(range) <= self.length else {
+            assertionFailure("Tried to set attributes at out of bounds range \(range). Length: \(length)")
+            return
+        }
 
         beginEditing()
         storage.setAttributes(attributes, range: range)
