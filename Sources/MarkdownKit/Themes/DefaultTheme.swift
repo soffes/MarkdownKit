@@ -20,7 +20,8 @@ open class DefaultTheme: Theme {
     // MARK: - Theme
 
     open override var font: UIFont {
-        return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+        return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize,
+                                           weight: .regular)
     }
 
     open override var baseAttributes: [NSAttributedString.Key: Any] {

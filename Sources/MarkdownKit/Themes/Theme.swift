@@ -20,7 +20,7 @@ open class Theme {
     open var baseAttributes: [NSAttributedString.Key: Any] {
         [
             .font: font,
-            .foregroundColor: foregroundColor,
+            .foregroundColor: foregroundColor
         ]
     }
 

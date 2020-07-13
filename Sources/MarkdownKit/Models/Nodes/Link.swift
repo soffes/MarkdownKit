@@ -26,7 +26,7 @@ public class Link: Node {
         return [
             NSRange(location: range.location, length: 1),
             NSRange(location: NSMaxRange(childRange), length: 2),
-            NSRange(location: NSMaxRange(range) - 1, length: 1),
+            NSRange(location: NSMaxRange(range) - 1, length: 1)
         ]
     }
 }
