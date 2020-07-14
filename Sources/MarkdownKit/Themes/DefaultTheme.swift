@@ -94,7 +94,6 @@ open class DefaultTheme: Theme {
     open override func thematicBreak(_ node: Node, range: NSRange) -> [Style] {
         [
             Style(range: range, attributes: [
-                .thematicBreak: true,
                 .thematicBreakColor: foregroundColor.withAlphaComponent(0.2)
             ])
         ] + delimiterStyles(for: node)
