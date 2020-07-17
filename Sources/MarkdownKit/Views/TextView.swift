@@ -18,8 +18,11 @@ open class TextView: UITextView {
         super.init(frame: .zero, textContainer: customTextContainer)
 
         delegate = self
-        smartDashesType = .no
-        smartQuotesType = .no
+        if #available(iOS 11.0, *) {
+            smartDashesType = .no
+            smartQuotesType = .no
+        }
+        
         typingAttributes = customTextStorage.typingAttributes
     }
 
@@ -33,7 +36,11 @@ open class TextView: UITextView {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+        if #available(iOS 10.0, *) {
+            if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+                customTextStorage.refreshTheme()
+            }
+        } else {
             customTextStorage.refreshTheme()
         }
     }

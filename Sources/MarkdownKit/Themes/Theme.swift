@@ -6,11 +6,19 @@ open class Theme {
     // MARK: - Properties
 
     open var foregroundColor: UIColor {
-        .label
+        if #available(iOS 13.0, *) {
+            return .label
+        } else {
+            return UILabel.appearance().tintColor
+        }
     }
 
     open var backgroundColor: UIColor {
-        .systemBackground
+        if #available(iOS 13.0, *) {
+            return .systemBackground
+        } else {
+            return UIWindow.appearance().backgroundColor ?? UIColor.gray
+        }
     }
 
     open var font: UIFont {

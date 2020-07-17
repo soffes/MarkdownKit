@@ -6,11 +6,19 @@ open class DefaultTheme: Theme {
     // MARK: - Properties
 
     open var secondaryForegroundColor: UIColor {
-        .secondaryLabel
+        if #available(iOS 13.0, *) {
+            return .secondaryLabel
+        } else {
+            return UILabel.appearance().tintColor
+        }
     }
 
     open var linkColor: UIColor {
-        .link
+        if #available(iOS 13.0, *) {
+            return .link
+        } else {
+            return UIView.appearance().tintColor
+        }
     }
 
     open var delimiterColor: UIColor {
@@ -20,8 +28,12 @@ open class DefaultTheme: Theme {
     // MARK: - Theme
 
     open override var font: UIFont {
-        return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize,
-                                           weight: .regular)
+        if #available(iOS 13.0, *) {
+            return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize,
+                                               weight: .regular)
+        } else {
+            return super.font
+        }
     }
 
     open override var baseAttributes: [NSAttributedString.Key: Any] {
