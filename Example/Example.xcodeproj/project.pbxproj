@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2147319A2493D5BD0091AFE2 /* MarkdownKit in Frameworks */ = {isa = PBXBuildFile; productRef = 214731992493D5BD0091AFE2 /* MarkdownKit */; };
 		21C55781249BCA31001BBBD3 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C55779249BCA31001BBBD3 /* DemoViewController.swift */; };
 		21C55782249BCA31001BBBD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C5577A249BCA31001BBBD3 /* AppDelegate.swift */; };
 		21C55784249BCA31001BBBD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21C5577E249BCA31001BBBD3 /* Assets.xcassets */; };
 		21C55785249BCA31001BBBD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C5577F249BCA31001BBBD3 /* LaunchScreen.storyboard */; };
+		CBB71FE424C1EACB00CEA7A3 /* SSMarkdownKit in Frameworks */ = {isa = PBXBuildFile; productRef = CBB71FE324C1EACB00CEA7A3 /* SSMarkdownKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2147319A2493D5BD0091AFE2 /* MarkdownKit in Frameworks */,
+				CBB71FE424C1EACB00CEA7A3 /* SSMarkdownKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,11 +104,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				214731972493D5B90091AFE2 /* PBXTargetDependency */,
+				CBB71FE224C1EABD00CEA7A3 /* PBXTargetDependency */,
 			);
 			name = Example;
 			packageProductDependencies = (
-				214731992493D5BD0091AFE2 /* MarkdownKit */,
+				CBB71FE324C1EACB00CEA7A3 /* SSMarkdownKit */,
 			);
 			productName = Example;
 			productReference = 214731702493D5580091AFE2 /* Example.app */;
@@ -193,9 +193,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		214731972493D5B90091AFE2 /* PBXTargetDependency */ = {
+		CBB71FE224C1EABD00CEA7A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 214731962493D5B90091AFE2 /* MarkdownKit */;
+			productRef = CBB71FE124C1EABD00CEA7A3 /* SSMarkdownKit */;
 		};
 /* End PBXTargetDependency section */
 
@@ -387,13 +387,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		214731962493D5B90091AFE2 /* MarkdownKit */ = {
+		CBB71FE124C1EABD00CEA7A3 /* SSMarkdownKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MarkdownKit;
+			productName = SSMarkdownKit;
 		};
-		214731992493D5BD0091AFE2 /* MarkdownKit */ = {
+		CBB71FE324C1EACB00CEA7A3 /* SSMarkdownKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MarkdownKit;
+			productName = SSMarkdownKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

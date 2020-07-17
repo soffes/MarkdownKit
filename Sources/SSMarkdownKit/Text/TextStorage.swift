@@ -1,4 +1,4 @@
-import MarkdownKitObjC
+import SSMarkdownKitObjC
 import UIKit
 
 public protocol TextStorageCustomDelegate: AnyObject {

@@ -1,4 +1,4 @@
-import MarkdownKit
+import SSMarkdownKit
 import UIKit
 
 private let exampleDocument = """

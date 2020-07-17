@@ -3,16 +3,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "MarkdownKit",
+    name: "SSMarkdownKit",
     platforms: [.iOS(.v9)],
     products: [
-        .library(name: "MarkdownKit", targets: ["MarkdownKit"])
+        .library(name: "SSMarkdownKit", targets: ["SSMarkdownKit"])
     ],
     targets: [
         .target(name: "libcmark"),
-        .target(name: "MarkdownKitObjC"),
-        .target(name: "MarkdownKit", dependencies: ["libcmark", "MarkdownKitObjC"]),
-        .testTarget(name: "MarkdownKitTests", dependencies: ["MarkdownKit"])
+        .target(name: "SSMarkdownKitObjC"),
+        .target(name: "SSMarkdownKit", dependencies: ["libcmark", "SSMarkdownKitObjC"]),
+        .testTarget(name: "MarkdownKitTests", dependencies: ["SSMarkdownKit"])
     ],
     swiftLanguageVersions: [.v5]
 )
