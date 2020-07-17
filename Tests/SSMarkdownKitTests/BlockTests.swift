@@ -1,4 +1,4 @@
-import MarkdownKit
+import SSMarkdownKit
 import XCTest
 
 final class BlockTests: XCTestCase {

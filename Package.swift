@@ -12,7 +12,7 @@ let package = Package(
         .target(name: "libcmark"),
         .target(name: "SSMarkdownKitObjC"),
         .target(name: "SSMarkdownKit", dependencies: ["libcmark", "SSMarkdownKitObjC"]),
-        .testTarget(name: "MarkdownKitTests", dependencies: ["SSMarkdownKit"])
+        .testTarget(name: "SSMarkdownKitTests", dependencies: ["SSMarkdownKit"])
     ],
     swiftLanguageVersions: [.v5]
 )
