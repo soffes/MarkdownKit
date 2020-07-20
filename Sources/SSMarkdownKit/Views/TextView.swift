@@ -53,7 +53,7 @@ open class TextView: UITextView {
         }
     }
 
-    var theme: Theme {
+    open var theme: Theme {
         get {
             return customTextStorage.theme
         }
