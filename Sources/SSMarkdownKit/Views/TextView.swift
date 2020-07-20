@@ -22,7 +22,7 @@ open class TextView: UITextView {
             smartDashesType = .no
             smartQuotesType = .no
         }
-        
+
         typingAttributes = customTextStorage.typingAttributes
     }
 
@@ -52,7 +52,7 @@ open class TextView: UITextView {
             customTextStorage.parseIfNeeded()
         }
     }
-    
+
     var theme: Theme {
         get {
             return customTextStorage.theme
