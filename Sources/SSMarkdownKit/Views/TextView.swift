@@ -52,6 +52,15 @@ open class TextView: UITextView {
             customTextStorage.parseIfNeeded()
         }
     }
+    
+    var theme: Theme {
+        get {
+            return customTextStorage.theme
+        }
+        set {
+            customTextStorage.theme = newValue
+        }
+    }
 }
 
 extension TextView: UITextViewDelegate {
