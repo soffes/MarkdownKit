@@ -9,7 +9,7 @@ open class Theme {
         if #available(iOS 13.0, *) {
             return .label
         } else {
-            return UILabel.appearance().tintColor
+            return UIColor.black
         }
     }
 
@@ -17,7 +17,7 @@ open class Theme {
         if #available(iOS 13.0, *) {
             return .systemBackground
         } else {
-            return UIWindow.appearance().backgroundColor ?? UIColor.gray
+            return UIColor.lightGray
         }
     }
 
