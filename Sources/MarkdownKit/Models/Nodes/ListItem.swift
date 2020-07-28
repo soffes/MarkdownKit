@@ -9,10 +9,6 @@ public final class ListItem: Node {
     }
 
     public var isCompleted: Bool {
-        guard let userData = cmark_node_get_user_data(node) else {
-            return false
-        }
-
-        return Int(bitPattern: userData) == 1
+        cmark_gfm_extensions_get_tasklist_item_checked(node)
     }
 }
