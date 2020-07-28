@@ -322,15 +322,17 @@ static bufsize_t scan_to_closing_backticks(subject *subj,
 }
 
 // Destructively modify string, converting newlines to
-// spaces, then removing a single leading + trailing space.
+// spaces, then removing a single leading + trailing space,
+// unless the code span consists entirely of space characters.
 static void S_normalize_code(cmark_strbuf *s) {
   bufsize_t r, w;
+  bool contains_nonspace = false;
 
   for (r = 0, w = 0; r < s->size; ++r) {
     switch (s->ptr[r]) {
     case '\r':
       if (s->ptr[r + 1] != '\n') {
-    s->ptr[w++] = ' ';
+	s->ptr[w++] = ' ';
       }
       break;
     case '\n':
@@ -339,10 +341,14 @@ static void S_normalize_code(cmark_strbuf *s) {
     default:
       s->ptr[w++] = s->ptr[r];
     }
+    if (s->ptr[r] != ' ') {
+      contains_nonspace = true;
+    }
   }
 
   // begins and ends with space?
-  if (s->ptr[0] == ' ' && s->ptr[w - 1] == ' ') {
+  if (contains_nonspace &&
+      s->ptr[0] == ' ' && s->ptr[w - 1] == ' ') {
     cmark_strbuf_drop(s, 1);
     cmark_strbuf_truncate(s, w - 2);
   } else {
@@ -369,7 +375,7 @@ static cmark_node *handle_backticks(subject *subj, int options) {
                      endpos - startpos - openticks.len);
     S_normalize_code(&buf);
 
-    cmark_node *node = make_code(subj, startpos - openticks.len, endpos - 1, cmark_chunk_buf_detach(&buf));
+    cmark_node *node = make_code(subj, startpos, endpos - openticks.len - 1, cmark_chunk_buf_detach(&buf));
     adjust_subj_node_newlines(subj, node, endpos - startpos, openticks.len, options);
     return node;
   }
@@ -441,7 +447,7 @@ static int scan_delims(subject *subj, unsigned char c, bool *can_open,
                  (!left_flanking || cmark_utf8proc_is_punctuation(after_char));
   } else if (c == '\'' || c == '"') {
     *can_open = left_flanking && !right_flanking &&
-             before_char != ']' && before_char != ')';
+	         before_char != ']' && before_char != ')';
     *can_close = right_flanking;
   } else {
     *can_open = left_flanking;
@@ -630,7 +636,6 @@ static void process_emphasis(cmark_parser *parser, subject *subj, delimiter *sta
   delimiter *opener;
   delimiter *old_closer;
   bool opener_found;
-  bool odd_match;
   delimiter *openers_bottom[3][128];
   int i;
 
@@ -655,15 +660,14 @@ static void process_emphasis(cmark_parser *parser, subject *subj, delimiter *sta
       // Now look backwards for first matching opener:
       opener = closer->previous;
       opener_found = false;
-      odd_match = false;
       while (opener != NULL && opener != stack_bottom &&
              opener != openers_bottom[closer->length % 3][closer->delim_char]) {
         if (opener->can_open && opener->delim_char == closer->delim_char) {
           // interior closer of size 2 can't match opener of size 1
           // or of size 1 can't match 2
-          odd_match = (closer->can_open || opener->can_close) &&
-                      ((opener->length + closer->length) % 3 == 0);
-          if (!odd_match) {
+          if (!(closer->can_open || opener->can_close) ||
+	      closer->length % 3 == 0 ||
+              (opener->length + closer->length) % 3 != 0) {
             opener_found = true;
             break;
           }
@@ -703,7 +707,7 @@ static void process_emphasis(cmark_parser *parser, subject *subj, delimiter *sta
       if (!opener_found) {
         // set lower bound for future searches for openers
         openers_bottom[old_closer->length % 3][old_closer->delim_char] =
-        old_closer->previous;
+		old_closer->previous;
         if (!old_closer->can_open) {
           // we can remove a closer that can't be an
           // opener, once we've seen there's no
@@ -969,17 +973,21 @@ static bufsize_t manual_scan_link_url_2(cmark_chunk *input, bufsize_t offset,
     else if (input->data[i] == '(') {
       ++nb_p;
       ++i;
-        if (nb_p > 32)
-          return -1;
+      if (nb_p > 32)
+        return -1;
     } else if (input->data[i] == ')') {
       if (nb_p == 0)
         break;
       --nb_p;
       ++i;
-    } else if (cmark_isspace(input->data[i]))
+    } else if (cmark_isspace(input->data[i])) {
+      if (i == offset) {
+        return -1;
+      }
       break;
-    else
+    } else {
       ++i;
+    }
   }
 
   if (i >= input->len)
@@ -1005,7 +1013,7 @@ static bufsize_t manual_scan_link_url(cmark_chunk *input, bufsize_t offset,
       } else if (input->data[i] == '\\')
         i += 2;
       else if (input->data[i] == '\n' || input->data[i] == '<')
-        return manual_scan_link_url_2(input, offset, output);
+        return -1;
       else
         ++i;
     }
@@ -1432,8 +1440,7 @@ bufsize_t cmark_parse_reference_inline(cmark_mem *mem, cmark_chunk *input,
 
   // parse link url:
   spnl(&subj);
-  if ((matchlen = manual_scan_link_url(&subj.input, subj.pos, &url)) > -1 &&
-      url.len > 0) {
+  if ((matchlen = manual_scan_link_url(&subj.input, subj.pos, &url)) > -1) {
     subj.pos += matchlen;
   } else {
     return 0;
@@ -1604,17 +1611,17 @@ int cmark_inline_parser_in_bracket(cmark_inline_parser *parser, int image) {
 }
 
 void cmark_node_unput(cmark_node *node, int n) {
-    node = node->last_child;
-    while (n > 0 && node && node->type == CMARK_NODE_TEXT) {
-        if (node->as.literal.len < n) {
-            n -= node->as.literal.len;
-            node->as.literal.len = 0;
-        } else {
-            node->as.literal.len -= n;
-            n = 0;
-        }
-        node = node->prev;
-    }
+	node = node->last_child;
+	while (n > 0 && node && node->type == CMARK_NODE_TEXT) {
+		if (node->as.literal.len < n) {
+			n -= node->as.literal.len;
+			node->as.literal.len = 0;
+		} else {
+			node->as.literal.len -= n;
+			n = 0;
+		}
+		node = node->prev;
+	}
 }
 
 delimiter *cmark_inline_parser_get_last_delimiter(cmark_inline_parser *parser) {
