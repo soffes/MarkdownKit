@@ -55,6 +55,12 @@ public class Node {
             return nil
         }
 
+        // cmark can return a -1 range that references the previous line, causing
+        // exceptions to be thrown within various NSString/NSAttributedString APIs.
+        if let end = end, start.line > end.line {
+            return nil
+        }
+
         guard let content = document?.content.map(NSString.init) else {
             assertionFailure("Missing `document.content`")
             return nil

@@ -16,6 +16,9 @@ This is ~~strikethrough~~.
 
 Inline `code` too. You can do ```a silly amount of back ticks``` too.
 
+<!-- Here's an HTML comment -->
+<!-- and a second one with some more content -->
+
 ---
 
 > Blockquote
