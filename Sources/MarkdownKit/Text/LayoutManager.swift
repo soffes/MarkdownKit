@@ -1,4 +1,8 @@
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 public final class LayoutManager: NSLayoutManager {
 
@@ -24,17 +28,23 @@ public final class LayoutManager: NSLayoutManager {
     // MARK: - Private
 
     private func drawThematicBreak(range: NSRange, at origin: CGPoint) {
+        #if os(macOS)
+        guard let textStorage = textStorage, let context = NSGraphicsContext.current?.cgContext else {
+            return
+        }
+        #else
         guard let textStorage = textStorage, let context = UIGraphicsGetCurrentContext() else {
             return
         }
+        #endif
 
         let attributes = textStorage.attributes(at: range.location, effectiveRange: nil)
 
-        guard let font = attributes[.font] as? UIFont else {
+        guard let font = attributes[.font] as? Font else {
             return
         }
 
-        let color = attributes[.thematicBreakColor] as? UIColor ?? attributes[.foregroundColor] as? UIColor
+        let color = attributes[.thematicBreakColor] as? Color ?? attributes[.foregroundColor] as? Color
             ?? .black
 
         // Find the remainder of the line

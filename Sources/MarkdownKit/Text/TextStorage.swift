@@ -1,5 +1,10 @@
-import MarkdownKitObjC
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
+
+import MarkdownKitObjC
 
 public protocol TextStorageCustomDelegate: AnyObject {
     func textStorage(_ textStorage: TextStorage, didParseDocument document: Document)
@@ -96,7 +101,7 @@ public final class TextStorage: BaseTextStorage {
         setAttributes(typingAttributes, range: bounds)
     }
 
-    private func addAttributes(for node: Node, currentFont: UIFont) {
+    private func addAttributes(for node: Node, currentFont: Font) {
         var currentFont = currentFont
 
         if let range = node.range {
@@ -104,7 +109,7 @@ public final class TextStorage: BaseTextStorage {
 
             for style in styles {
                 var attributes = style.attributes
-                if let traits = attributes[.fontTraits] as? UIFontDescriptor.SymbolicTraits {
+                if let traits = attributes[.fontTraits] as? FontSymbolicTraits {
                     currentFont = currentFont.addingTraits(traits)
                     attributes[.font] = currentFont
                     attributes.removeValue(forKey: .fontTraits)

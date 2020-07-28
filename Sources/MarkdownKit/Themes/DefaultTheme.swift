@@ -1,27 +1,43 @@
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 /// Theme with some default UIKit colors
 open class DefaultTheme: Theme {
 
     // MARK: - Properties
 
-    open var secondaryForegroundColor: UIColor {
-        .secondaryLabel
+    open var secondaryForegroundColor: Color {
+        #if os(macOS)
+        return NSColor.secondaryLabelColor
+        #else
+        return UIColor.secondaryLabel
+        #endif
     }
 
-    open var linkColor: UIColor {
-        .link
+    open var linkColor: Color {
+        #if os(macOS)
+        return NSColor.linkColor
+        #else
+        return UIColor.link
+        #endif
     }
 
-    open var delimiterColor: UIColor {
+    open var delimiterColor: Color {
         foregroundColor.withAlphaComponent(0.5)
     }
 
     // MARK: - Theme
 
-    open override var font: UIFont {
+    open override var font: Font {
+        #if os(macOS)
+        return NSFont.monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
+        #else
         return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize,
                                            weight: .regular)
+        #endif
     }
 
     open override var baseAttributes: [NSAttributedString.Key: Any] {
@@ -52,24 +68,24 @@ open class DefaultTheme: Theme {
         switch node.level {
         case .one:
             attributes = [
-                .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
+                .fontTraits: FontSymbolicTraits.traitBold,
                 .foregroundColor: foregroundColor
             ]
 
         case .two:
             attributes = [
-                .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold
+                .fontTraits: FontSymbolicTraits.traitBold
             ]
 
         case .three:
             attributes = [
-                .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
+                .fontTraits: FontSymbolicTraits.traitBold,
                 .foregroundColor: secondaryForegroundColor
             ]
 
         case .four:
             attributes = [
-                .fontTraits: UIFontDescriptor.SymbolicTraits.traitBold,
+                .fontTraits: FontSymbolicTraits.traitBold,
                 .foregroundColor: secondaryForegroundColor
             ]
 
@@ -108,12 +124,12 @@ open class DefaultTheme: Theme {
     }
 
     open override func emphasis(_ node: Node, range: NSRange) -> [Style] {
-        [Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitItalic])]
+        [Style(range: range, attributes: [.fontTraits: FontSymbolicTraits.traitItalic])]
             + delimiterStyles(for: node)
     }
 
     open override func strong(_ node: Node, range: NSRange) -> [Style] {
-        [Style(range: range, attributes: [.fontTraits: UIFontDescriptor.SymbolicTraits.traitBold])]
+        [Style(range: range, attributes: [.fontTraits: FontSymbolicTraits.traitBold])]
             + delimiterStyles(for: node)
     }
 

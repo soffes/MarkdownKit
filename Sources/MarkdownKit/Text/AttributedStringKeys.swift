@@ -1,4 +1,8 @@
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 extension NSAttributedString.Key {
     /// `UIFontDescriptor.SymbolicTraits` to use for the given range. Prefer this over customizing the font so sizes
