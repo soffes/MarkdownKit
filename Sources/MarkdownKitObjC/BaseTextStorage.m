@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSDictionary<NSString *,id> *)attributesAtIndex:(NSUInteger)location effectiveRange:(nullable NSRangePointer)effectiveRange {
-    if (location >= self.length) {
+    if (!(location < self.length)) {
         NSAssert(location < self.length, @"Tried to read attributed at out of bounds location %lu. Length: %lu",
                  (unsigned long)location, (unsigned long)self.length);
         return @{};
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)aString {
-    if (NSMaxRange(range) > self.length) {
+    if (!(NSMaxRange(range) >= self.length)) {
         NSAssert(NSMaxRange(range) >= self.length, @"Tried to replace at out of bounds range %@. Length: %lu",
                  NSStringFromRange(range), (unsigned long)self.length);
         return;
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAttributes:(nullable NSDictionary<NSString *,id> *)attributes range:(NSRange)range {
-    if (NSMaxRange(range) > self.length) {
+    if (!(NSMaxRange(range) >= self.length)) {
         NSAssert(NSMaxRange(range) >= self.length, @"Tried to set attributes at out of bounds range %@. Length: %lu",
                  NSStringFromRange(range), (unsigned long)self.length);
         return;
