@@ -170,9 +170,21 @@ final class InlineTests: XCTestCase {
     func testLinkDelimiters() {
         let markdown = "Hello [world](https://example.com).\n"
         let document = Parser.parse(markdown)!
-        let node = document.children[0].children[1]
+        let node = document.children[0].children[1] as! Link
+        XCTAssertFalse(node.isAutolink)
         XCTAssertEqual([
             NSRange(location: 6, length: 1), NSRange(location: 12, length: 2), NSRange(location: 33, length: 1)
         ], node.delimiters!)
+    }
+
+    func testAutomaticLinks() {
+        let markdown = "hello <http://www.w3.org/>"
+        let document = Parser.parse(markdown)!
+        let node = document.children[0].children[1] as! Link
+        XCTAssertEqual(NSRange(location: 6, length: 20), node.range)
+        XCTAssert(node.isAutolink)
+        XCTAssertEqual(node.delimiters, [
+            NSRange(location: 6, length: 1), NSRange(location: 25, length: 1)
+        ])
     }
 }
