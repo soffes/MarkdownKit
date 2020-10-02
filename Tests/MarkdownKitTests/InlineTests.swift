@@ -1,4 +1,4 @@
-@testable import MarkdownKit
+import MarkdownKit
 import XCTest
 
 final class InlineTests: XCTestCase {
