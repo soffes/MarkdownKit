@@ -22,7 +22,7 @@ public class Link: Node {
         cmark_node_get_title(node).map(String.init)
     }
 
-    public var isAutolink: Bool {
+    internal var isAutolink: Bool {
         firstChild?.content == url?.absoluteString
     }
 
@@ -34,7 +34,7 @@ public class Link: Node {
         if isAutolink {
             return [
                 NSRange(location: range.location, length: 1),
-                NSRange(location: NSMaxRange(range) - 1, length: 1),
+                NSRange(location: NSMaxRange(range) - 1, length: 1)
             ]
         }
 
