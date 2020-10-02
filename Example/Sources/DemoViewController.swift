@@ -8,7 +8,7 @@ Here is *italic* and _italic_.
 
 Here’s ***both***, ___both___, _**both**_, and __*both*__.
 
-Links? We [got ‘em](https://github.com)
+Links? We [got ‘em](https://github.com) <https://github.com>
 
 This is an image ![reef](https://soffes.s3.amazonaws.com/reef.jpg)
 

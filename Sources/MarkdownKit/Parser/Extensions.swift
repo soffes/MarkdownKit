@@ -4,6 +4,7 @@ struct Extensions {
 
     // MARK: - GitHub Extensions
 
+    static let autoLinkExtension = create_autolink_extension()
     static let strikethroughExtension = create_strikethrough_extension()
     static let tableExtension = create_table_extension()
     static let taskListExtension = create_tasklist_extension()
@@ -11,6 +12,7 @@ struct Extensions {
     // MARK: - Properties
 
     static let all = [
+        autoLinkExtension,
         strikethroughExtension,
         tableExtension,
         taskListExtension
