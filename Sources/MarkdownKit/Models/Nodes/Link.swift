@@ -23,7 +23,18 @@ public class Link: Node {
     }
 
     internal var isAutolink: Bool {
-        firstChild?.content == url?.absoluteString
+        guard let content = firstChild?.content, let url = url else { return false }
+
+        if content == url.absoluteString {
+            return true
+        }
+
+        // Special case for mailto
+        if url.scheme == "mailto" {
+            return content == url.absoluteString.dropFirst(7) // mailto:
+        }
+
+        return false
     }
 
     public override var delimiters: [NSRange]? {
