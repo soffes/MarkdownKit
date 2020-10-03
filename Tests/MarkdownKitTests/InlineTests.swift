@@ -190,11 +190,13 @@ final class InlineTests: XCTestCase {
 
     func testMail() {
         let markdown = "<foo@bar.com>"
-        let document = Parser.parse(markdown)!
-        let node = document.children[0].children[0] as! Link
-        XCTAssertEqual(NSRange(location: 0, length: 13), node.range)
-        XCTAssert(node.isAutolink)
-        XCTAssertEqual(node.delimiters, [
+        let document = Parser.parse(markdown)
+        XCTAssertNotNil(document)
+        let node = document!.children[0].children[0] as? Link
+        XCTAssertNotNil(node)
+        XCTAssertEqual(NSRange(location: 0, length: 13), node!.range)
+        XCTAssert(node!.isAutolink)
+        XCTAssertEqual(node!.delimiters, [
             NSRange(location: 0, length: 1), NSRange(location: 12, length: 1)
         ])
     }
