@@ -22,7 +22,7 @@ public class Link: Node {
         cmark_node_get_title(node).map(String.init)
     }
 
-    internal var isAutolink: Bool {
+    public var isAutolink: Bool {
         guard let content = firstChild?.content, let url = url else { return false }
 
         if content == url.absoluteString {
