@@ -1,1 +1,1 @@
-// File intentionally left blank
+#include "BaseTextStorage.h"
