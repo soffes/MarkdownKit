@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -10,7 +10,12 @@ let package = Package(
     ],
     targets: [
         .target(name: "libcmark"),
-        .target(name: "MarkdownKitObjC"),
+        .target(
+            name: "MarkdownKitObjC",
+            cSettings: [
+                .headerSearchPath("include"),
+            ]
+        ),
         .target(name: "MarkdownKit", dependencies: ["libcmark", "MarkdownKitObjC"]),
         .testTarget(name: "MarkdownKitTests", dependencies: ["MarkdownKit"])
     ],
