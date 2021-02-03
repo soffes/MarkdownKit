@@ -19,12 +19,7 @@ let package = Package(
             exclude: libcmarkAsmFilePaths,
             cSettings: libcmarkAsmFilePaths.map { CSetting.headerSearchPath($0) }
         ),
-        .target(
-            name: "MarkdownKitObjC",
-            cSettings: [
-                .headerSearchPath("include"),
-            ]
-        ),
+        .target(name: "MarkdownKitObjC"),
         .target(name: "MarkdownKit", dependencies: ["libcmark", "MarkdownKitObjC"]),
         .testTarget(name: "MarkdownKitTests", dependencies: ["MarkdownKit"])
     ],
