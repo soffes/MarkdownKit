@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 
 /// Text view configured with custom Text Kit components
@@ -52,3 +53,4 @@ extension TextView: UITextViewDelegate {
         customTextStorage.parseIfNeeded()
     }
 }
+#endif

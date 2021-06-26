@@ -1,4 +1,8 @@
+#if canImport(AppKit)
+import AppKit
+#else
 import UIKit
+#endif
 
 public struct Style {
     public var range: NSRange

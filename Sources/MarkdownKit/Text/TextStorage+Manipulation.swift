@@ -1,4 +1,8 @@
+#if canImport(AppKit)
+import AppKit
+#else
 import UIKit
+#endif
 
 extension TextStorage {
 

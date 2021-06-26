@@ -1,20 +1,36 @@
+#if canImport(AppKit)
+import AppKit
+#else
 import UIKit
+#endif
 
 /// Base theme with very minimal styling
 open class Theme {
 
     // MARK: - Properties
 
-    open var foregroundColor: UIColor {
-        .label
+    open var foregroundColor: Color {
+#if canImport(AppKit)
+        return NSColor.labelColor
+#else
+        return UIColor.label
+#endif
     }
 
-    open var backgroundColor: UIColor {
-        .systemBackground
+    open var backgroundColor: Color {
+#if canImport(AppKit)
+        return NSColor.textBackgroundColor
+#else
+        return UIColor.systemBackground
+#endif
     }
 
-    open var font: UIFont {
-        UIFont.preferredFont(forTextStyle: .body)
+    open var font: Font {
+#if canImport(AppKit)
+        return NSFont.systemFont(ofSize: NSFont.systemFontSize)
+#else
+        return UIFont.preferredFont(forTextStyle: .body)
+#endif
     }
 
     open var baseAttributes: [NSAttributedString.Key: Any] {

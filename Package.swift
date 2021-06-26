@@ -9,7 +9,7 @@ let libcmarkAsmFilePaths = [
 
 let package = Package(
     name: "MarkdownKit",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v13), .macOS(.v10_15)],
     products: [
         .library(name: "MarkdownKit", targets: ["MarkdownKit"])
     ],

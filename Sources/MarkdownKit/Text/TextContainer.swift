@@ -1,4 +1,8 @@
+#if canImport(AppKit)
+import AppKit
+#else
 import UIKit
+#endif
 
 public final class TextContainer: NSTextContainer {
 
