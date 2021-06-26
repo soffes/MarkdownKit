@@ -9,8 +9,8 @@ on:
 name: Test
 jobs:
   test_ios:
-    name: Test (iOS)
-    runs-on: macOS-latest
+    name: Test iOS
+    runs-on: macOS-11
     steps:
       - uses: actions/checkout@v2
       - name: Units
@@ -24,8 +24,8 @@ jobs:
           && xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=13.5,name=iPhone 11' \
           | xcpretty
   test_macos:
-    name: Test (macOS)
-    runs-on: macOS-latest
+    name: Test macOS
+    runs-on: macOS-11
     steps:
       - uses: actions/checkout@v2
       - name: Units
