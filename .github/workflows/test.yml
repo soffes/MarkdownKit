@@ -10,7 +10,7 @@ name: Test
 jobs:
   test_ios:
     name: Test iOS
-    runs-on: macOS-11
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Units
@@ -25,7 +25,7 @@ jobs:
           | xcpretty
   test_macos:
     name: Test macOS
-    runs-on: macOS-11
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Units
