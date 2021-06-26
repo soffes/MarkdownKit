@@ -1,4 +1,4 @@
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
 #else
 import UIKit
@@ -9,7 +9,7 @@ extension Font {
         var traits = fontDescriptor.symbolicTraits
         traits.insert(additionalTraits)
 
-        #if os(macOS)
+        #if canImport(AppKit)
         let descriptor = fontDescriptor.withSymbolicTraits(traits)
         #else
         guard let descriptor = fontDescriptor.withSymbolicTraits(traits) else {
@@ -18,7 +18,7 @@ extension Font {
         }
         #endif
 
-        #if os(macOS)
+        #if canImport(AppKit)
         guard let font = NSFont(descriptor: descriptor, size: pointSize) else {
             assertionFailure("Failed to create font with symbol traits.")
             return self

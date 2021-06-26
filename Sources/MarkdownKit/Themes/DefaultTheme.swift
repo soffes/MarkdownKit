@@ -1,4 +1,4 @@
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
 #else
 import UIKit
@@ -10,7 +10,7 @@ open class DefaultTheme: Theme {
     // MARK: - Properties
 
     open var secondaryForegroundColor: Color {
-        #if os(macOS)
+        #if canImport(AppKit)
         return NSColor.secondaryLabelColor
         #else
         return UIColor.secondaryLabel
@@ -18,7 +18,7 @@ open class DefaultTheme: Theme {
     }
 
     open var linkColor: Color {
-        #if os(macOS)
+        #if canImport(AppKit)
         return NSColor.linkColor
         #else
         return UIColor.link
@@ -32,7 +32,7 @@ open class DefaultTheme: Theme {
     // MARK: - Theme
 
     open override var font: Font {
-        #if os(macOS)
+        #if canImport(AppKit)
         return NSFont.monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
         #else
         return UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize,

@@ -1,4 +1,4 @@
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
 public typealias Font = NSFont
 public typealias FontSymbolicTraits = NSFontDescriptor.SymbolicTraits

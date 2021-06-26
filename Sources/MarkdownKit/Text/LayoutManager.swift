@@ -1,4 +1,4 @@
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
 #else
 import UIKit
@@ -28,7 +28,7 @@ public final class LayoutManager: NSLayoutManager {
     // MARK: - Private
 
     private func drawThematicBreak(range: NSRange, at origin: CGPoint) {
-        #if os(macOS)
+        #if canImport(AppKit)
         guard let textStorage = textStorage, let context = NSGraphicsContext.current?.cgContext else {
             return
         }

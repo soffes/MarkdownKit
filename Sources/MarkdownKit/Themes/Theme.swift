@@ -1,4 +1,4 @@
-#if os(macOS)
+#if canImport(AppKit)
 import AppKit
 #else
 import UIKit
@@ -10,7 +10,7 @@ open class Theme {
     // MARK: - Properties
 
     open var foregroundColor: Color {
-#if os(macOS)
+#if canImport(AppKit)
         return NSColor.labelColor
 #else
         return UIColor.label
@@ -18,7 +18,7 @@ open class Theme {
     }
 
     open var backgroundColor: Color {
-#if os(macOS)
+#if canImport(AppKit)
         return NSColor.textBackgroundColor
 #else
         return UIColor.systemBackground
@@ -26,7 +26,7 @@ open class Theme {
     }
 
     open var font: Font {
-#if os(macOS)
+#if canImport(AppKit)
         return NSFont.systemFont(ofSize: NSFont.systemFontSize)
 #else
         return UIFont.preferredFont(forTextStyle: .body)
