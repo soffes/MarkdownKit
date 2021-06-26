@@ -20,7 +20,7 @@ jobs:
         run: |
           xcrun simctl boot "iPhone 11"
           set -o pipefail \
-          && xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=13.5,name=iPhone 11' \
+          && xcodebuild test -scheme MarkdownKit -destination 'platform=iOS Simulator,OS=14.4,name=iPhone 11' \
           | xcpretty
   test_macos:
     name: Test macOS
